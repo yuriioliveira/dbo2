@@ -5,8 +5,8 @@ const OrdersFeedAnymarketController = async () => {
     let numeroPaginaAtual = 1;
     let offsetAtual = 0;
     let quantidadePaginas = 999;
-    let dataInicial = "2024-01-23";
-    let dataFinal = "2024-01-23";
+    let dataInicial = "2024-01-24";
+    let dataFinal = "2024-01-24";
 
     while (numeroPaginaAtual <= quantidadePaginas) {
         try {
@@ -46,8 +46,7 @@ const OrdersFeedAnymarketController = async () => {
                 });
             }
             try {
-                Anymarket.bulkCreate(orders_anymarket);
-                console.log(insertBanco)
+                Anymarket.bulkCreate(orders_anymarket, {returning: ['id_anymarket'], ignoreDuplicates: true});
             } catch (erroPedido) {
                 console.error('Erro ao enviar o pedido:', erroPedido.message);
             }
