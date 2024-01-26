@@ -1,0 +1,127 @@
+1- Receber e armazenar todos os pedidos da Anymarket.
+
+doc: https://developers.anymarket.com.br/api/v2/9d15f7643df9b-orders
+
+	Funções: 
+		Buscar todos os pedidos em um período determinado ( 7 dias? )
+		Armazenar os dados necessários no banco de dados
+		Verificar se um pedido está há mais de 2 dias sem NF, após a aprovação do pagamento, sem contar final de semana
+		Obter dados da nota fiscal no Bseller
+		Enviar dados da nota fiscal
+		Verificar o status do pedido no Marketplace e comparar com o status da Anymarket e Bseller
+		Atualizar o status do pedido
+		
+
+	Endpoints:
+	* obs * http://api.anymarket.com.br/v2/orders?offset=100&createdAfter=2024-01-15T00:00:00-03:00&createdBefore=2024-01-15T23:59:59-03:00&limit=100
+			Buscar todos os pedidos em um período determinado ( 7 dias? )
+
+		BANCO DE DADOS
+			Armazenar os dados necessários no banco de dados
+
+		http://api.bseller.com.br/entregas/{{idEntregaBseller}}/nf
+			Obter dados da Nota fiscal no Bseller
+
+		
+		##### TESTAR ENDPOINT #####
+			Enviar dados da nota fiscal
+
+		##### TESTAR ENDPOINT #####
+			Atualizar o status do pedido
+		
+		Sem endpoint ( Apenas execução de código com as informações já disponíveis no banco )
+			Verificar se um pedido está há mais de 2 dias sem NF, após a aprovação do pagamento, sem contar final de semana
+
+Obs: Endpoint com paginação, usar os dados Page no respose para consultar todos os pedidos disponíveis.
+
+
+Dados do Json a serem armazenados:
+
+ID
+marketPlaceId
+marketPlace
+createdAt
+paymentDate
+status
+invoice.accessKey
+invoice.series
+invoice.number
+invoice.date
+marketPlaceStatus
+total
+buyer.name
+buyer.document
+buyer.documentType
+payments.method
+payments.value
+
+
+2- Verificar se o pedido foi integrado no ERP ( Bseller )
+
+doc:
+https://api.bseller.com.br/swagger-ui.html
+https://api-dw.bseller.com.br/swagger-ui.html
+
+	Funcoes
+		Validar a integração do pedido da Anymarket no Bseller
+		Acompanhar a atualização dos status dos pedidos com a Anymarket
+		Obter dados da Nota fiscal
+		Verificar se o pedido pago na Anymarket está pago no Bseller
+		
+		Realizar aprovação do pagamento
+			Consultar os valores e sequencial para aprovação
+			Aprovar os valores e sequencial
+			Validar se o pedido foi aprovado
+			
+					
+
+	Endpoints: 
+		http://api-dw.bseller.com.br/webquery/execute/SIGEQ280 ( se atentar as datas )
+			Validar a integração do pedido da Anymarket no Bseller
+			Acompanhar a atualização dos status dos pedidos com a Anymarket
+			Verificar se o pedido pago na Anymarket está pago no Bseller
+
+		http://api.bseller.com.br/entregas/{{idEntregaBseller}}/nf
+			Obter dados da Nota fiscal
+
+		http://api.bseller.com.br/entregas/{{idEntregaBseller}}
+			Consultar os valores e sequencial para aprovação
+			Validar se o pedido foi aprovado
+
+		http://api.bseller.com.br/pedidos/pagamentos/aprovar
+			Aprovar os valores e sequencial
+
+		
+
+3- Validar integração e atualização Intelipost ( Apenas pedidos Shopee ) Unidade de negócio 7 Bseller.
+
+Doc: https://docs.intelipost.com.br/
+
+
+	Funções:
+		Verificar a criação do pedido Shopee na Intelipost
+		Verificar se o pedido na Intelipost recebeu os dados da NF
+		Buscar os dados da NF no Bseller
+		Enviar os dados da NF para a Intelipost
+		Validar o status do pedido na Intelipost
+		Consultar o status do pedido no Bseller
+		Atualizar o status do pedido na Intelipost
+
+	Endpoints:
+		https://api.intelipost.com.br/api/v1/shipment_order/{{pedido_de_entrega}}
+			Verificar a criação do pedido Shopee na Intelipost
+			Verificar se o pedido na Intelipost recebeu os dados da NF
+			Validar o status do pedido na Intelipost
+
+			
+		http://api.bseller.com.br/entregas/{{idEntregaBseller}}/nf
+			Buscar os dados da NF no Bseller
+
+		https://api.intelipost.com.br/api/v1/shipment_order/set_invoice
+			Enviar os dados da NF para a Intelipost
+	
+		http://api-dw.bseller.com.br/webquery/execute/SIGEQ280 ( otimizar para usar apenas uma requisição )
+			Consultar o status do pedido no Bseller
+
+		https://api.intelipost.com.br/api/v1/tracking/add/events
+			Atualizar o status do pedido na Intelipost ( Existe um código para cada status )

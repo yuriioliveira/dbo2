@@ -1,27 +1,24 @@
-const axios = require('axios');
+const AnymarketService = require('../services/AnymarketServices');
 const Anymarket = require('../models/Anymarket');
 
 const OrdersFeedAnymarketController = async () => {
     let numeroPaginaAtual = 1;
     let offsetAtual = 0;
     let quantidadePaginas = 999;
-    let dataInicial = "2024-01-24";
-    let dataFinal = "2024-01-24";
+    let dataInicial = "2024-01-25";
+    let dataFinal = "2024-01-25";
+
+    let registrosCriados = 0;
+    let registrosAtualizados = 0;
 
     while (numeroPaginaAtual <= quantidadePaginas) {
         try {
-            const response = await axios.get(`http://api.anymarket.com.br/v2/orders?createdAfter=${dataInicial}T00:00:00-03:00&createdBefore=${dataFinal}T23:59:59-03:00&limit=100&offset=${offsetAtual}`, {
-                headers: {
-                    'gumgaToken': process.env.TOKEN_ANYMARKET,
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            const conteudo = response.data;
-
+            const conteudo = await AnymarketService.getOrdersFromAnymarket(dataInicial, dataFinal, offsetAtual);
+            
             const orders_anymarket = [];
+
             for (const order of conteudo.content) {
-                orders_anymarket.push({
+                const orderData = {
                     id_anymarket: order.id,
                     id_marketplace: order.marketPlaceId,
                     status_anymarket: order.status,
@@ -43,23 +40,34 @@ const OrdersFeedAnymarketController = async () => {
                     app_data_status_pedido_atualizado: '',
                     app_faturamento_atrasado: false,
                     app_data_faturamento_atrasado: ''
+                };
+
+                const [registro, created] = await Anymarket.findOrCreate({
+                    where: { id_anymarket: orderData.id_anymarket },
+                    defaults: orderData
                 });
+
+                if (created) {
+                    registrosCriados++;
+                } else {
+                    await registro.update(orderData);
+                    registrosAtualizados++;
+                }
             }
-            try {
-                Anymarket.bulkCreate(orders_anymarket, {returning: ['id_anymarket'], ignoreDuplicates: true});
-            } catch (erroPedido) {
-                console.error('Erro ao enviar o pedido:', erroPedido.message);
-            }
-            quantidadePaginas = conteudo.page.totalPages
+
+            quantidadePaginas = conteudo.page.totalPages;
             numeroPaginaAtual++;
             offsetAtual += 100;
         } catch (error) {
-        console.error('Erro na requisição:', error.message);
-        break;
+            console.error('Erro na requisição:', error.message);
+            break;
+        }
     }
-}
 
-return {"criado": "com sucesso!"};
+    return {
+        registrosCriados,
+        registrosAtualizados
+    };
 }
 
 module.exports = {

@@ -3,7 +3,7 @@ const { Model, DataTypes } = require('sequelize');
 class Anymarket extends Model {
     static init(sequelize) {
         super.init({
-            id_anymarket: DataTypes.STRING,
+            id_anymarket: DataTypes.INTEGER,
             id_marketplace: DataTypes.STRING,
             status_anymarket: DataTypes.STRING,
             status_marketplace: DataTypes.STRING,

@@ -1,6 +1,10 @@
 const express = require('express');
 const AnymarketController = require('./controllers/AnymarketController');
+const BsellerController = require('./controllers/BsellerController');
 const OrdersFeedAnymarketController = require('./controllers/OrdersFeedAnymarketController');
+const OrdersFeedBsellerController = require('./controllers/OrdersFeedBsellerController');
+const BsellerServices = require('./services/BsellerServices');
+const axios = require('axios');
 
 const routes = express.Router();
 
@@ -16,6 +20,18 @@ routes.get('/api/anymarket/orders/feed', async (req, res) => {
       res.status(500).json({ error: 'Erro ao processar a requisição.' });
   }
 });
+
+routes.get('/api/bseller/orders/feed', async (req, res) => {
+  try {
+      const result = await OrdersFeedBsellerController.OrdersFeedBsellerController();
+      res.json(result);
+  } catch (error) {
+      res.status(500).json({ error: 'Erro ao processar a requisição.' });
+  }
+});
+
+routes.get('/api/bseller/orders', BsellerController.index);
+routes.post('/api/bseller/orders', BsellerController.store);
 
 routes.get('/api/anymarket/orders', AnymarketController.index);
 routes.post('/api/anymarket/orders', AnymarketController.store);

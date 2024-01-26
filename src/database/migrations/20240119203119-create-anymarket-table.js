@@ -9,9 +9,10 @@ module.exports = {
         allowNull: false,
       },
       id_anymarket: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         primaryKey: true,
         allowNull: false,
+        unique: true,
       },
       id_marketplace: {
         type: Sequelize.STRING,
