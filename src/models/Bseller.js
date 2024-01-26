@@ -6,6 +6,7 @@ class Bseller extends Model {
             id_anymarket: DataTypes.INTEGER,
             id_entrega: DataTypes.INTEGER,
             status_bseller: DataTypes.STRING,
+            data_pedido: DataTypes.STRING,
             chave_nf: DataTypes.STRING,
             numero_nf: DataTypes.STRING,
             serie_nf: DataTypes.STRING,

@@ -21,6 +21,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      data_pedido: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       chave_nf: Sequelize.STRING,
       numero_nf: Sequelize.STRING,
       serie_nf: Sequelize.STRING,

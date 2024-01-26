@@ -1,42 +1,4 @@
-
-incluir a data do pedido no Bseller no banco.
-
 Pensar num controle para entregas não identificadas com a Anymarket.
-
-tabelas 
-
-## ANYMARKET ## 
-    idAnymarket: string;  - OK
-    idMarketplace: string;  - OK
-    pedidoValorTotal: number;  - OK
-    statusPedidoAnymarket: string;  - OK
-    statusMarketplace: string;  - OK
-    chaveNotaFiscal: string;  - OK
-    serieNotaFiscal: string;  - OK
-    numeroNotaFiscal: string;  - OK
-    dataNotaFiscal: string;  - OK
-    dataCriacaoPedido: string;  - OK
-    nomeCliente: string;  - OK
-    documentoCliente: string;  - OK
-    tipoDocumentoCliente: string;  - OK
-    marketplaceName: string;  - OK
-    notaFiscalAtualizada: string;  - OK
-    statusPedidosAtualizado: string;  - OK
-    faturamentoAtrasado: string;  - OK
-    
-
-## BSELLER ##
-    idEntregaBseller: string;
-
-    statusBseller: string;
-    chaveNotaFiscal: string;
-    serieNotaFiscal: string;
-    numeroNotaFiscal: string;
-    dataNotaFiscal: string;
-    dataAprovacaoPagamento: string  ( Quando tiver que ser aprovado pela função)
-    pagamentoAprovado: string
-
-
 
 ## INTELIPOST ##
     idIntelipost: string;
@@ -47,5 +9,3 @@ tabelas
     dataNotaFiscal: string;
     notaFiscalAtualizada: string;
     statusPedidosAtualizado: string;
-
-

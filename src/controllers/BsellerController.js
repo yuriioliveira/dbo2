@@ -14,6 +14,7 @@ module.exports = {
         id_anymarket,
         id_entrega,
         status_bseller,
+        data_pedido,
         chave_nf,
         numero_nf,
         serie_nf,
