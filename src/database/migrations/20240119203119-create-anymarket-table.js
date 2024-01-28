@@ -58,6 +58,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      pedido_integrado_bseller: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+      },
       app_nf_atualizada: Sequelize.BOOLEAN,
       app_data_nf_atualizada: Sequelize.STRING,
       app_status_pedido_atualizado: Sequelize.BOOLEAN,

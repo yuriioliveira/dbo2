@@ -11,6 +11,7 @@ class Bseller extends Model {
             numero_nf: DataTypes.STRING,
             serie_nf: DataTypes.STRING,
             data_nf: DataTypes.STRING,
+            pedido_integrado_intelipost: DataTypes.BOOLEAN,
             app_pagamento_aprovado: DataTypes.BOOLEAN,
             app_data_aprovacao_pagamento: DataTypes.STRING
         }, {

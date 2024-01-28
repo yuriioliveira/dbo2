@@ -1,12 +1,14 @@
 const AnymarketService = require('../services/AnymarketServices');
 const Anymarket = require('../models/Anymarket');
 
+// implementar para não atualizar os campos: pedido_integrado_bseller e outros a ver
+
 const OrdersFeedAnymarketController = async () => {
     let numeroPaginaAtual = 1;
     let offsetAtual = 0;
     let quantidadePaginas = 999;
-    let dataInicial = "2024-01-26";
-    let dataFinal = "2024-01-27";
+    let dataInicial = "2024-01-24";
+    let dataFinal = "2024-01-28";
 
     let registrosCriados = 0;
     let registrosAtualizados = 0;
@@ -34,6 +36,7 @@ const OrdersFeedAnymarketController = async () => {
                     nome_cliente: order.buyer.name,
                     documento_cliente: order.buyer.document,
                     tipo_documento_cliente: order.buyer.documentType,
+                    pedido_integrado_bseller: false,
                     app_nf_atualizada: false,
                     app_data_nf_atualizada: '',
                     app_status_pedido_atualizado: false,

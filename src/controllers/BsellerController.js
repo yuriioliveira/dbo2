@@ -19,6 +19,7 @@ module.exports = {
         numero_nf,
         serie_nf,
         data_nf,
+        pedido_integrado_bseller,
         app_pagamento_aprovado,
         app_data_aprovacao_pagamento
     } = req.body;
@@ -32,6 +33,7 @@ module.exports = {
         numero_nf,
         serie_nf,
         data_nf,
+        pedido_integrado_bseller,
         app_pagamento_aprovado,
         app_data_aprovacao_pagamento
       });

@@ -2,8 +2,8 @@ const BsellerService = require('../services/BsellerServices');
 const Bseller = require('../models/Bseller');
 
 const ordersFeed280BsellerController = async () => {
-    let dataInicial = "26/01/2024";
-    let dataFinal = "27/01/2024";
+    let dataInicial = "24/01/2024";
+    let dataFinal = "28/01/2024";
     let registrosCriados = 0;
     let registrosAtualizados = 0;
     const maxIntegerValue = 5297918851;
@@ -21,6 +21,7 @@ const ordersFeed280BsellerController = async () => {
                 numero_nf: '',
                 serie_nf: '',
                 data_nf: '',
+                pedido_integrado_intelipost: false,
                 app_pagamento_aprovado: false,
                 app_data_aprovacao_pagamento: ''
             };
@@ -37,6 +38,7 @@ const ordersFeed280BsellerController = async () => {
                     delete orderData.numero_nf;
                     delete orderData.serie_nf;
                     delete orderData.data_nf;
+                    delete orderData.pedido_integrado_intelipost;
                     delete orderData.app_pagamento_aprovado;
                     delete orderData.app_data_aprovacao_pagamento;
                     

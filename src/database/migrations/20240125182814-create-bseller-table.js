@@ -29,6 +29,10 @@ module.exports = {
       numero_nf: Sequelize.STRING,
       serie_nf: Sequelize.STRING,
       data_nf: Sequelize.STRING,
+      pedido_integrado_intelipost: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+      },
       app_pagamento_aprovado: Sequelize.BOOLEAN,
       app_data_aprovacao_pagamento: Sequelize.STRING,
       created_at: {
