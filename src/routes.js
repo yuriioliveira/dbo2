@@ -3,12 +3,18 @@ const AnymarketController = require('./controllers/AnymarketController');
 const BsellerController = require('./controllers/BsellerController');
 const OrdersFeedAnymarketController = require('./controllers/OrdersFeedAnymarketController');
 const OrdersFeedBsellerController = require('./controllers/OrdersFeedBsellerController');
+const OrdersFeedIntelipostController = require('./controllers/OrdersFeedIntelipostController');
 
 const routes = express.Router();
 
 routes.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html');
 });
+
+// inicio nova rota teste
+routes.get('/api/intelipost/teste', OrdersFeedIntelipostController.getShopeeOrders);
+
+// fim nova rota teste
 
 routes.get('/api/anymarket/orders/feed', async (req, res) => {
   try {

@@ -1,0 +1,45 @@
+1- Obter todos os pedidos da Shopee na tabela "Anymarkets", considerando apenas os status "PAID_WAITING_DELIVERY", "INVOICED", "CONCLUDED" ( IGNORAR O CANCELED)
+
+2- Verificar se esses pedidos todos estão na tabela "Bsellers" 
+    Se não estiver na tabela bsellers - sinalizar problema com esse pedido
+
+3- Fazer o request na intelipost com o numero da entrega e salvar os dados no banco de dados. 
+    Verificar o status do pedido no Bseller    
+    Caso o pedido no Bseller esteja em ETR, puxar os dados de nota fiscal para deixar atualizado no banco
+
+    verificar se o status do pedido na Intelipost é igual ao do Bseller
+
+
+
+3- Validar integração e atualização Intelipost ( Apenas pedidos Shopee ) Unidade de negócio 7 Bseller.
+
+Doc: https://docs.intelipost.com.br/
+
+
+	Funções:
+		Verificar a criação do pedido Shopee na Intelipost
+		Verificar se o pedido na Intelipost recebeu os dados da NF
+		Buscar os dados da NF no Bseller
+		Enviar os dados da NF para a Intelipost
+		Validar o status do pedido na Intelipost
+		Consultar o status do pedido no Bseller
+		Atualizar o status do pedido na Intelipost
+
+	Endpoints:
+		https://api.intelipost.com.br/api/v1/shipment_order/{{pedido_de_entrega}}
+			Verificar a criação do pedido Shopee na Intelipost
+			Verificar se o pedido na Intelipost recebeu os dados da NF
+			Validar o status do pedido na Intelipost
+
+			
+		http://api.bseller.com.br/entregas/{{idEntregaBseller}}/nf
+			Buscar os dados da NF no Bseller
+
+		https://api.intelipost.com.br/api/v1/shipment_order/set_invoice
+			Enviar os dados da NF para a Intelipost
+	
+		http://api-dw.bseller.com.br/webquery/execute/SIGEQ280 ( otimizar para usar apenas uma requisição )
+			Consultar o status do pedido no Bseller
+
+		https://api.intelipost.com.br/api/v1/tracking/add/events
+			Atualizar o status do pedido na Intelipost ( Existe um código para cada status )

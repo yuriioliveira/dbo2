@@ -5,8 +5,8 @@ const OrdersFeedAnymarketController = async () => {
     let numeroPaginaAtual = 1;
     let offsetAtual = 0;
     let quantidadePaginas = 999;
-    let dataInicial = "2023-01-26";
-    let dataFinal = "2023-01-26";
+    let dataInicial = "2024-01-26";
+    let dataFinal = "2024-01-27";
 
     let registrosCriados = 0;
     let registrosAtualizados = 0;
