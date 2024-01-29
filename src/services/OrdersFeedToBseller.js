@@ -1,7 +1,7 @@
-const BsellerService = require('../services/BsellerServices');
+const BsellerUtils = require('../utils/BsellerUtils');
 const Bseller = require('../models/Bseller');
 
-const ordersFeed280BsellerController = async () => {
+const ordersFeedToBseller280 = async () => {
     let dataInicial = "29/01/2024";
     let dataFinal = "29/01/2024";
     let registrosCriados = 0;
@@ -9,7 +9,7 @@ const ordersFeed280BsellerController = async () => {
     const maxIntegerValue = 5297918851;
 
     try {
-        const conteudo = await BsellerService.getOrdersFrom280Bseller(dataInicial, dataFinal);
+        const conteudo = await BsellerUtils.getOrdersFrom280Bseller(dataInicial, dataFinal);
         console.log(conteudo)
         for (const order of conteudo) {
             const orderData = {
@@ -58,5 +58,5 @@ const ordersFeed280BsellerController = async () => {
 }
 
 module.exports = {
-    ordersFeed280BsellerController
+    ordersFeedToBseller280
 };

@@ -13,7 +13,7 @@ const getOrdersFromAnymarket = async (dataInicial, dataFinal, offsetAtual) => {
 
         return response.data;
     } catch (error) {
-        console.error('Erro na requisição:', error.message);
+        console.error('Erro em AnymarketUtils.js, função: getOrdersFromAnymarket: ', error.message);
         throw error;
     }
 };
@@ -32,17 +32,22 @@ const anymarketValidationFindAll = async () => {
           return anymarketOrdersValidacao;
 
     } catch (error) {
-        console.error('Erro ao obter os pedidos: ', error.message);
+        console.error('Erro em AnymarketUtils.js, função: anymarketValidationFindAll: ', error.message);
         throw error;
     }
 }
 
 const anymarketUpdateValidacao = async (idAnymarketUpdate) => {
     
-    await Anymarket.update(
-        { pedido_integrado_bseller: 'true' },
-        { where: { id_anymarket: idAnymarketUpdate } }
-      );
+    try {
+        await Anymarket.update(
+            { pedido_integrado_bseller: 'true' },
+            { where: { id_anymarket: idAnymarketUpdate } }
+          );
+    } catch (error) {
+        console.error('Erro em AnymarketUtils.js, função: anymarketUpdateValidacao: ', error.message);
+    }
+    
 
 }
 

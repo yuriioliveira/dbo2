@@ -11,7 +11,7 @@ const integracaoErrosFindOne = async (findParametersIntegracaoErros) => {
           return returnIntegracaoErrosFindOne;
   
     } catch (error) {
-        console.error('Erro em IntegracaoBsellerErrosServices.js, função: integracaoErrosFindOne: ', error.message);
+        console.error('Erro em IntegracaoBsellerErrosUtils.js, função: integracaoErrosFindOne: ', error.message);
         throw error;
     }
   }
@@ -26,7 +26,7 @@ const integracaoErrosFindOne = async (findParametersIntegracaoErros) => {
           return ("id removido com sucesso")
   
     } catch (error) {
-        console.error('Erro em IntegracaoBsellerErrosServices.js, função: integracaoErrosDestroy: ', error.message);
+        console.error('Erro em IntegracaoBsellerErrosUtils.js, função: integracaoErrosDestroy: ', error.message);
         throw error;
     }
   }

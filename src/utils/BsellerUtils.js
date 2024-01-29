@@ -25,7 +25,7 @@ const getOrdersFrom280Bseller = async (dataInicial, dataFinal) => {
         return response.data;
         
     } catch (error) {
-        console.error('Erro na requisição:', error.message);
+        console.error('Erro em BsellerUtils.js, função: getOrdersFrom280Bseller: ', error.message);
         throw error;
     }
 };
@@ -40,7 +40,7 @@ const bsellerFindOne = async (findParametersBseller) => {
         return returnBsellerFindOne;
 
   } catch (error) {
-      console.error('Erro ao obter os pedidos: ', error.message);
+      console.error('Erro em BsellerUtils.js, função: bsellerFindOne: ', error.message);
       throw error;
   }
 }

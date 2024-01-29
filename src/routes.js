@@ -1,12 +1,13 @@
 const express = require('express');
 const AnymarketController = require('./controllers/AnymarketController');
 const BsellerController = require('./controllers/BsellerController');
-const OrdersFeedAnymarketController = require('./controllers/OrdersFeedAnymarketController');
-const OrdersFeedBsellerController = require('./controllers/OrdersFeedBsellerController');
-const OrdersFeedIntelipostController = require('./controllers/OrdersFeedIntelipostController');
-const ValidacaoIntegracaoAnymarketBseller = require('./services/ValidacaoIntegracaoAnymarketBseller');
 const ErroIntegracaoController = require('./controllers/ErroIntegracaoController');
-const TestBulkUpsert = require('./controllers/TestBulkUpsert');
+
+const OrdersFeedToAnymarket = require('./services/OrdersFeedToAnymarket');
+const OrdersFeedToBseller = require('./services/OrdersFeedToBseller');
+const OrdersFeedToIntelipost = require('./services/OrdersFeedToIntelipost');
+const OrdersValidationAnyToBseller = require('./services/OrdersValidationAnyToBseller');
+const TestBulkUpsert = require('./services/TestBulkUpsert');
 
 const routes = express.Router();
 
@@ -26,7 +27,7 @@ routes.get('/api/bulkupsertteste', async (req, res) => {
   }
 });
 // rota teste Intelipost
-routes.get('/api/intelipost/teste', OrdersFeedIntelipostController.getShopeeOrders);
+routes.get('/api/intelipost/teste', OrdersFeedToIntelipost.getShopeeOrders);
 
 // ############## FIM DAS ROTAS DE TESTE #####################
 
@@ -38,7 +39,7 @@ routes.post('/api/validacao/bseller/add', ErroIntegracaoController.store);
 // rota para validar se os pedidos da anymarket estão devidamente integrados no Bseller
 routes.get('/api/validacao/bseller', async (req, res) => {
   try {
-      const result = await ValidacaoIntegracaoAnymarketBseller.validacaoErrosIntegracao();
+      const result = await OrdersValidationAnyToBseller.OrdersValidationAnyToBseller();
       res.json(result);
   } catch (error) {
       res.status(500).json({ error: 'Erro ao processar a requisição.' });
@@ -48,7 +49,7 @@ routes.get('/api/validacao/bseller', async (req, res) => {
 // rota para alimentar a tabeka Anymarkets
 routes.get('/api/anymarket/orders/feed', async (req, res) => {
   try {
-      const result = await OrdersFeedAnymarketController.OrdersFeedAnymarketController();
+      const result = await OrdersFeedToAnymarket.OrdersFeedToAnymarket();
       res.json(result);
   } catch (error) {
       res.status(500).json({ error: 'Erro ao processar a requisição.' });
@@ -58,7 +59,7 @@ routes.get('/api/anymarket/orders/feed', async (req, res) => {
 // rota para alimentar a tabela bsellers
 routes.get('/api/bseller/orders/feed', async (req, res) => {
   try {
-      const result = await OrdersFeedBsellerController.ordersFeed280BsellerController();
+      const result = await OrdersFeedToBseller.ordersFeedToBseller280();
       res.json(result);
   } catch (error) {
       res.status(500).json({ error: 'Erro ao processar a requisição.' });

@@ -1,9 +1,9 @@
-const AnymarketService = require('../services/AnymarketServices');
+const AnymarketUtils = require('../utils/AnymarketUtils');
 const Anymarket = require('../models/Anymarket');
 
 // implementar para não atualizar os campos: pedido_integrado_bseller e outros a ver
 
-const OrdersFeedAnymarketController = async () => {
+const OrdersFeedToAnymarket = async () => {
     let numeroPaginaAtual = 1;
     let offsetAtual = 0;
     let quantidadePaginas = 999;
@@ -15,7 +15,7 @@ const OrdersFeedAnymarketController = async () => {
 
     while (numeroPaginaAtual <= quantidadePaginas) {
         try {
-            const conteudo = await AnymarketService.getOrdersFromAnymarket(dataInicial, dataFinal, offsetAtual);
+            const conteudo = await AnymarketUtils.getOrdersFromAnymarket(dataInicial, dataFinal, offsetAtual);
 
             for (const order of conteudo.content) {
                 const orderData = {
@@ -72,5 +72,5 @@ const OrdersFeedAnymarketController = async () => {
 }
 
 module.exports = {
-    OrdersFeedAnymarketController,
+    OrdersFeedToAnymarket,
 };
