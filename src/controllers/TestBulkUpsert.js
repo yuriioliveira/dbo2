@@ -3,12 +3,12 @@ const Anymarket = require('../models/Anymarket');
 
 // implementar para não atualizar os campos: pedido_integrado_bseller e outros a ver
 
-const OrdersFeedAnymarketController = async () => {
+const OrdersUpsertAnymarket = async () => {
     let numeroPaginaAtual = 1;
     let offsetAtual = 0;
     let quantidadePaginas = 999;
-    let dataInicial = "2024-01-29";
-    let dataFinal = "2024-01-29";
+    let dataInicial = "2024-01-28";
+    let dataFinal = "2024-01-28";
 
     let registrosCriados = 0;
     let registrosAtualizados = 0;
@@ -17,8 +17,9 @@ const OrdersFeedAnymarketController = async () => {
         try {
             const conteudo = await AnymarketService.getOrdersFromAnymarket(dataInicial, dataFinal, offsetAtual);
 
+            const orders_anymarket = [];
             for (const order of conteudo.content) {
-                const orderData = {
+                orders_anymarket.push({
                     id_anymarket: order.id,
                     id_marketplace: order.marketPlaceId,
                     status_anymarket: order.status,
@@ -41,36 +42,34 @@ const OrdersFeedAnymarketController = async () => {
                     app_data_status_pedido_atualizado: '',
                     app_faturamento_atrasado: false,
                     app_data_faturamento_atrasado: ''
-                };
-
-                const [registro, created] = await Anymarket.findOrCreate({
-                    where: { id_anymarket: orderData.id_anymarket },
-                    defaults: orderData
                 });
-
-                if (created) {
-                    registrosCriados++;
-                } else {
-                    await registro.update(orderData);
-                    registrosAtualizados++;
-                }
             }
-
-            quantidadePaginas = conteudo.page.totalPages;
-            numeroPaginaAtual++;
-            offsetAtual += 100;
-        } catch (error) {
-            console.error('Erro na requisição:', error.message);
-            break;
+    
+                const result = await Anymarket.bulkCreate(orders_anymarket,
+                    console.log(orders_anymarket),
+                    {
+                        updateOnDuplicate:["id_anymarket", "status_marketplace"]
+                    }
+                    );
+    
+                registrosCriados += result.length;
+                registrosAtualizados += orders_anymarket.length - result.length;
+    
+                quantidadePaginas = conteudo.page.totalPages;
+                numeroPaginaAtual++;
+                offsetAtual += 100;
+            } catch (error) {
+                console.error('Erro na requisição:', error.message);
+                break;
+            }
         }
+    
+        return {
+            registrosCriados,
+            registrosAtualizados
+        };
     }
-
-    return {
-        registrosCriados,
-        registrosAtualizados
+    
+    module.exports = {
+        OrdersUpsertAnymarket,
     };
-}
-
-module.exports = {
-    OrdersFeedAnymarketController,
-};

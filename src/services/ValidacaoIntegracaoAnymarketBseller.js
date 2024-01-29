@@ -1,38 +1,31 @@
-const Anymarket = require('../models/Anymarket');
-const Bseller = require('../models/Bseller');
 const IntegracaoBsellerErros = require('../models/integracaoBsellerErros');
+const AnymarketService = require('../services/AnymarketServices');
+const BsellerService = require('../services/BsellerServices');
+const IntegracaoBsellerErrosServices = require('../services/IntegracaoBsellerErrosServices');
 
-// Acho que isso precisa ser um controller e dividir as funcoes aqui no services. 
+// mudar realmente para controller? 
 
 async function validacaoErrosIntegracao() {
   let bsellerIntegrados = 0;
   let bsellerNaoIntegrados = 0;
+
   try {
-    const anymarketOrders = await Anymarket.findAll({
-      where: {
-        fulfillment: false,
-        pedido_integrado_bseller: false
-      },
-      attributes: ['id_anymarket', 'fulfillment', 'status_anymarket']
-    });
+    const anymarketOrders = await AnymarketService.anymarketValidationFindAll();
 
     for (const order of anymarketOrders) {
       try {
-        const bsellerOrder = await Bseller.findOne({
-          where: {
-            id_anymarket: order.id_anymarket
-          }
-        });
+        let findParametersBseller = {
+          "id_anymarket": order.id_anymarket
+        }
+        const bsellerOrder = await BsellerService.bsellerFindOne(findParametersBseller);
+
         if (bsellerOrder === null) {
+          let findParametersIntegracaoErros = {
+            "id_anymarket": order.id_anymarket
+          }
+          const checkErroIntegracao = await IntegracaoBsellerErrosServices.integracaoErrosFindOne(findParametersIntegracaoErros);
 
-          const checkErroIntegracao = await IntegracaoBsellerErros.findOne({
-            where: {
-              id_anymarket: order.id_anymarket
-            }
-          });
-
-          // incluir a validação de status cancelado, pois se o pedido na Anymarket estiver cancelado e não existir no bseller não é um problema.
-          if (checkErroIntegracao === null) {
+          if (checkErroIntegracao === null && order.status_anymarket !== 'CANCELED') {
             await IntegracaoBsellerErros.create({
               id_anymarket: order.id_anymarket,
               fulfillment: order.fulfillment,
@@ -40,23 +33,23 @@ async function validacaoErrosIntegracao() {
             });
             bsellerNaoIntegrados++;
           } else {
-            console.log('Pedido já cadastrado na tabela de erros')
+            let = idAnymarketUpdate = order.id_anymarket
+            await AnymarketService.anymarketUpdateValidacao(idAnymarketUpdate)
             continue
           }
         } else {
-          await Anymarket.update(
-            { pedido_integrado_bseller: 'true' },
-            { where: { id_anymarket: order.id_anymarket } }
-          );
+          let idAnymarketUpdate = order.id_anymarket
+          await AnymarketService.anymarketUpdateValidacao(idAnymarketUpdate)
 
-          await IntegracaoBsellerErros.destroy(
-            { where: { id_anymarket: order.id_anymarket } },
-          );
+          let findParametersIntegracaoErros = {
+            "id_anymarket": order.id_anymarket
+          }
+          await IntegracaoBsellerErrosServices.integracaoErrosDestroy(findParametersIntegracaoErros);
+
           bsellerIntegrados++;
         }
       } catch (error) {
         console.error('Erro ao processar pedido:', error);
-        // Se ocorrer um erro, continue para o próximo pedido
         continue;
       }
     }
@@ -70,7 +63,6 @@ async function validacaoErrosIntegracao() {
   };
 }
 
-// Exportar os módulos
 module.exports = {
   validacaoErrosIntegracao
 };

@@ -6,6 +6,7 @@ const OrdersFeedBsellerController = require('./controllers/OrdersFeedBsellerCont
 const OrdersFeedIntelipostController = require('./controllers/OrdersFeedIntelipostController');
 const ValidacaoIntegracaoAnymarketBseller = require('./services/ValidacaoIntegracaoAnymarketBseller');
 const ErroIntegracaoController = require('./controllers/ErroIntegracaoController');
+const TestBulkUpsert = require('./controllers/TestBulkUpsert');
 
 const routes = express.Router();
 
@@ -15,6 +16,15 @@ routes.get('/', (req, res) => {
 
 // ############## INÍCIO DAS ROTAS DE TESTE #####################
 
+// rota teste bulkUpsert
+routes.get('/api/bulkupsertteste', async (req, res) => {
+  try {
+      const result = await TestBulkUpsert.OrdersUpsertAnymarket();
+      res.json(result);
+  } catch (error) {
+      res.status(500).json({ error: 'Erro ao processar a requisição.' });
+  }
+});
 // rota teste Intelipost
 routes.get('/api/intelipost/teste', OrdersFeedIntelipostController.getShopeeOrders);
 

@@ -1,4 +1,5 @@
 const axios = require('axios');
+const Bseller= require('../models/Bseller');
 
 const getOrdersFrom280Bseller = async (dataInicial, dataFinal) => {
     const requestData = {
@@ -29,7 +30,23 @@ const getOrdersFrom280Bseller = async (dataInicial, dataFinal) => {
     }
 };
 
+const bsellerFindOne = async (findParametersBseller) => {
+  try {
+      const returnBsellerFindOne = await Bseller.findOne({
+        where: 
+        findParametersBseller
+        })
+
+        return returnBsellerFindOne;
+
+  } catch (error) {
+      console.error('Erro ao obter os pedidos: ', error.message);
+      throw error;
+  }
+}
+
 
 module.exports = {
-    getOrdersFrom280Bseller
+    getOrdersFrom280Bseller,
+    bsellerFindOne
 };

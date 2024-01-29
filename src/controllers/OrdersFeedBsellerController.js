@@ -2,8 +2,8 @@ const BsellerService = require('../services/BsellerServices');
 const Bseller = require('../models/Bseller');
 
 const ordersFeed280BsellerController = async () => {
-    let dataInicial = "24/01/2024";
-    let dataFinal = "28/01/2024";
+    let dataInicial = "29/01/2024";
+    let dataFinal = "29/01/2024";
     let registrosCriados = 0;
     let registrosAtualizados = 0;
     const maxIntegerValue = 5297918851;

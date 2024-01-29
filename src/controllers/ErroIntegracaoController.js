@@ -1,5 +1,7 @@
 const IntegracaoBsellerErros = require('../models/integracaoBsellerErros');
 
+//  controller para puxar e criar registros na tabela integracao_bseller_erros
+
 module.exports = {
   // método de index do banco
   async index(req, res) {
