@@ -7,11 +7,11 @@ const OrdersUpsertAnymarket = async () => {
     let numeroPaginaAtual = 1;
     let offsetAtual = 0;
     let quantidadePaginas = 999;
-    let dataInicial = "2024-01-28";
-    let dataFinal = "2024-01-28";
+    let dataInicial = "2024-01-30";
+    let dataFinal = "2024-01-30";
 
-    let registrosCriados = 0;
-    let registrosAtualizados = 0;
+    let registrosProcessados = 0;
+    let registrosTotal = 0;
 
     while (numeroPaginaAtual <= quantidadePaginas) {
         try {
@@ -44,29 +44,27 @@ const OrdersUpsertAnymarket = async () => {
                     app_data_faturamento_atrasado: ''
                 });
             }
+
+                const result = await Anymarket.bulkCreate(orders_anymarket,{
+                    updateOnDuplicate: ['id_anymarket','status_anymarket', 'status_marketplace','chave_nf','numero_nf','serie_nf','data_nf'],
+                    conflictAttributes: ['id_anymarket']
+                })
     
-                const result = await Anymarket.bulkCreate(orders_anymarket,
-                    console.log(orders_anymarket),
-                    {
-                        updateOnDuplicate:["id_anymarket", "status_marketplace"]
-                    }
-                    );
-    
-                registrosCriados += result.length;
-                registrosAtualizados += orders_anymarket.length - result.length;
+                registrosProcessados += result.length;
+                registrosTotal = conteudo.page.totalElements
     
                 quantidadePaginas = conteudo.page.totalPages;
                 numeroPaginaAtual++;
                 offsetAtual += 100;
             } catch (error) {
-                console.error('Erro na requisição:', error.message);
+                console.error('Erro na requisição AQUI:', error.message);
                 break;
             }
         }
     
         return {
-            registrosCriados,
-            registrosAtualizados
+            registrosProcessados,
+            registrosTotal
         };
     }
     

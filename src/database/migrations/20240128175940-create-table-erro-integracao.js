@@ -9,7 +9,7 @@ module.exports = {
         allowNull: false,
       },
       id_anymarket: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.BIGINT,
         primaryKey: true,
         allowNull: false,
       },

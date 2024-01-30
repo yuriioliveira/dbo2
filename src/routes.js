@@ -78,7 +78,7 @@ routes.get('/api/bseller/orders/feed', async (req, res) => {
       const result = await OrdersFeedToBseller.ordersFeedToBseller280();
       res.json(result);
   } catch (error) {
-      res.status(500).json({ error: 'Erro ao processar a requisição.' });
+      res.status(500).json({ error: 'Erro ao processar a requisição AQUI 2.' });
   }
 });
 

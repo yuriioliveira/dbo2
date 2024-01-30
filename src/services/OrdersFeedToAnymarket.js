@@ -8,15 +8,16 @@ const OrdersFeedToAnymarket = async () => {
     let dataInicial = "2024-01-27";
     let dataFinal = "2024-01-30";
 
-    let registrosCriados = 0;
-    let registrosAtualizados = 0;
+    let registrosProcessados = 0;
+    let registrosTotal = 0;
 
     while (numeroPaginaAtual <= quantidadePaginas) {
         try {
             const conteudo = await AnymarketUtils.getOrdersFromAnymarket(dataInicial, dataFinal, offsetAtual);
 
+            const orders_anymarket = [];
             for (const order of conteudo.content) {
-                const orderData = {
+                orders_anymarket.push({
                     id_anymarket: order.id,
                     id_marketplace: order.marketPlaceId,
                     status_anymarket: order.status,
@@ -39,50 +40,32 @@ const OrdersFeedToAnymarket = async () => {
                     app_data_status_pedido_atualizado: '',
                     app_faturamento_atrasado: false,
                     app_data_faturamento_atrasado: ''
-                };
-
-                const [registro, created] = await Anymarket.findOrCreate({
-                    where: { id_anymarket: orderData.id_anymarket },
-                    defaults: orderData
                 });
-
-                if (created) {
-                    registrosCriados++;
-                } else {
-                    delete orderData.marketplace_nome;
-                    delete orderData.fulfillment;
-                    delete orderData.chave_nf;
-                    delete orderData.numero_nf;
-                    delete orderData.serie_nf;
-                    delete orderData.data_nf;
-                    delete orderData.pedido_integrado_bseller;
-                    delete orderData.app_nf_atualizada;
-                    delete orderData.app_data_nf_atualizada;
-                    delete orderData.app_status_pedido_atualizado;
-                    delete orderData.app_data_status_pedido_atualizado;
-                    delete orderData.app_faturamento_atrasado;
-                    delete orderData.app_data_faturamento_atrasado;
-                    
-                    await registro.update(orderData);
-                    registrosAtualizados++;
-                }
             }
 
-            quantidadePaginas = conteudo.page.totalPages;
-            numeroPaginaAtual++;
-            offsetAtual += 100;
-        } catch (error) {
-            console.error('Erro na requisição:', error.message);
-            break;
+                const result = await Anymarket.bulkCreate(orders_anymarket,{
+                    updateOnDuplicate: ['id_anymarket','status_anymarket', 'status_marketplace','chave_nf','numero_nf','serie_nf','data_nf'],
+                    conflictAttributes: ['id_anymarket']
+                })
+    
+                registrosProcessados += result.length;
+                registrosTotal = conteudo.page.totalElements
+    
+                quantidadePaginas = conteudo.page.totalPages;
+                numeroPaginaAtual++;
+                offsetAtual += 100;
+            } catch (error) {
+                console.error('Erro na requisição AQUI:', error.message);
+                break;
+            }
         }
+    
+        return {
+            registrosProcessados,
+            registrosTotal
+        };
     }
-
-    return {
-        registrosCriados,
-        registrosAtualizados
+    
+    module.exports = {
+        OrdersFeedToAnymarket,
     };
-}
-
-module.exports = {
-    OrdersFeedToAnymarket,
-};

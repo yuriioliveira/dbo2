@@ -9,11 +9,11 @@ module.exports = {
         allowNull: false,
       },
       id_anymarket: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.BIGINT,
         allowNull: false,
       },
       id_entrega: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.BIGINT,
         allowNull: false,
         unique: true,
       },

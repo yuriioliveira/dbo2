@@ -3,8 +3,8 @@ const { Model, DataTypes } = require('sequelize');
 class Bseller extends Model {
     static init(sequelize) {
         super.init({
-            id_anymarket: DataTypes.INTEGER,
-            id_entrega: DataTypes.INTEGER,
+            id_anymarket: DataTypes.BIGINT,
+            id_entrega: DataTypes.BIGINT,
             status_bseller: DataTypes.STRING,
             data_pedido: DataTypes.STRING,
             chave_nf: DataTypes.STRING,
