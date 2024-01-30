@@ -1,16 +1,6 @@
-
-1- Verificar se TODOS os pedidos da Anymarket estão integrados dentro do Bseller. 
-    Condições
-        pedido anymarket fulfillment não entra no Bseller
-        pedido anymarket como Cancelado se não estiver no Bseller não é um problema.
-        Validar se o status dos pedidos são equivalentes.
-
-        
-
 - Tratar retorno 429 na Anymarket
-- Implementar uma tabela para pedidos da Anymarket que não estão na tabela do Bseller ( desconsiderando os pedidos fulfillment e cancelados caso já não existam no bseller)
-- Implementar uma tabela para pedidos do Bseller ( Shopee ) que não estão na intelipost para que possamos consumir e fazer o cadastro dos pedidos. 
 
+- Implementar uma tabela para pedidos do Bseller ( Shopee ) que não estão na intelipost para que possamos consumir e fazer o cadastro dos pedidos. 
 
 
 Tabelas para os problemas

@@ -2,12 +2,14 @@ const express = require('express');
 const AnymarketController = require('./controllers/AnymarketController');
 const BsellerController = require('./controllers/BsellerController');
 const ErroIntegracaoController = require('./controllers/ErroIntegracaoController');
+const StatusValidationController = require('./controllers/StatusValidationController');
 
 const OrdersFeedToAnymarket = require('./services/OrdersFeedToAnymarket');
 const OrdersFeedToBseller = require('./services/OrdersFeedToBseller');
 const OrdersFeedToIntelipost = require('./services/OrdersFeedToIntelipost');
 const OrdersValidationAnyToBseller = require('./services/OrdersValidationAnyToBseller');
 const TestBulkUpsert = require('./services/TestBulkUpsert');
+const OrdersStatusValidation = require('./services/OrdersStatusValidation');
 
 const routes = express.Router();
 
@@ -30,6 +32,20 @@ routes.get('/api/bulkupsertteste', async (req, res) => {
 routes.get('/api/intelipost/teste', OrdersFeedToIntelipost.getShopeeOrders);
 
 // ############## FIM DAS ROTAS DE TESTE #####################
+
+
+// rota para alimentar a tabela StatusValidation
+routes.post('/api/statusvalidation/new', StatusValidationController.store);
+
+// rota para rodar o StatusValidation
+routes.get('/api/statusvalidation', async (req, res) => {
+  try {
+      const result = await OrdersStatusValidation.OrdersStatusValidation();
+      res.json(result);
+  } catch (error) {
+      res.status(500).json({ error: 'Erro ao processar a requisição AQUI.' });
+  }
+});
 
 
 

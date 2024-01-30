@@ -1,14 +1,12 @@
 const AnymarketUtils = require('../utils/AnymarketUtils');
 const Anymarket = require('../models/Anymarket');
 
-// implementar para não atualizar os campos: pedido_integrado_bseller e outros a ver
-
 const OrdersFeedToAnymarket = async () => {
     let numeroPaginaAtual = 1;
     let offsetAtual = 0;
     let quantidadePaginas = 999;
-    let dataInicial = "2024-01-29";
-    let dataFinal = "2024-01-29";
+    let dataInicial = "2024-01-27";
+    let dataFinal = "2024-01-30";
 
     let registrosCriados = 0;
     let registrosAtualizados = 0;
@@ -51,6 +49,20 @@ const OrdersFeedToAnymarket = async () => {
                 if (created) {
                     registrosCriados++;
                 } else {
+                    delete orderData.marketplace_nome;
+                    delete orderData.fulfillment;
+                    delete orderData.chave_nf;
+                    delete orderData.numero_nf;
+                    delete orderData.serie_nf;
+                    delete orderData.data_nf;
+                    delete orderData.pedido_integrado_bseller;
+                    delete orderData.app_nf_atualizada;
+                    delete orderData.app_data_nf_atualizada;
+                    delete orderData.app_status_pedido_atualizado;
+                    delete orderData.app_data_status_pedido_atualizado;
+                    delete orderData.app_faturamento_atrasado;
+                    delete orderData.app_data_faturamento_atrasado;
+                    
                     await registro.update(orderData);
                     registrosAtualizados++;
                 }
