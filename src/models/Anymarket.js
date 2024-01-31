@@ -19,6 +19,8 @@ class Anymarket extends Model {
             documento_cliente: DataTypes.STRING,
             tipo_documento_cliente: DataTypes.STRING,
             pedido_integrado_bseller: DataTypes.BOOLEAN,
+            pedido_integrado_intelipost: DataTypes.BOOLEAN,
+            monitorar_status: DataTypes.BOOLEAN,
             app_nf_atualizada: DataTypes.BOOLEAN,
             app_data_nf_atualizada: DataTypes.STRING,
             app_status_pedido_atualizado: DataTypes.BOOLEAN,

@@ -2,8 +2,8 @@ const BsellerUtils = require('../utils/BsellerUtils');
 const Bseller = require('../models/Bseller');
 
 const ordersFeedToBseller280 = async () => {
-    let dataInicial = "27/01/2024";
-    let dataFinal = "30/01/2024";
+    let dataInicial = "24/01/2024";
+    let dataFinal = "31/01/2024";
     let registrosProcessados = 0;
     let registrosTotal = 0;
 

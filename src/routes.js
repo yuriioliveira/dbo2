@@ -3,12 +3,13 @@ const AnymarketController = require('./controllers/AnymarketController');
 const BsellerController = require('./controllers/BsellerController');
 const ErroIntegracaoController = require('./controllers/ErroIntegracaoController');
 const StatusValidationController = require('./controllers/StatusValidationController');
+const IntelipostController = require('./controllers/IntelipostController');
 
 const OrdersFeedToAnymarket = require('./services/OrdersFeedToAnymarket');
 const OrdersFeedToBseller = require('./services/OrdersFeedToBseller');
 const OrdersFeedToIntelipost = require('./services/OrdersFeedToIntelipost');
+
 const OrdersValidationAnyToBseller = require('./services/OrdersValidationAnyToBseller');
-const TestBulkUpsert = require('./services/TestBulkUpsert');
 const OrdersStatusValidation = require('./services/OrdersStatusValidation');
 
 const routes = express.Router();
@@ -19,19 +20,25 @@ routes.get('/', (req, res) => {
 
 // ############## INÍCIO DAS ROTAS DE TESTE #####################
 
-// rota teste bulkUpsert
-routes.get('/api/bulkupsertteste', async (req, res) => {
+// rotas para a nova tabela Inteliposts
+routes.get('/api/intelipost/orders', IntelipostController.index);
+routes.post('/api/intelipost/orders', IntelipostController.store);
+
+// rota teste para alimentar a tabela Inteliposts
+routes.get('/api/intelipost/orders/feed', async (req, res) => {
   try {
-      const result = await TestBulkUpsert.OrdersUpsertAnymarket();
-      res.json(result);
+    const result = await OrdersFeedToIntelipost.getOrdersIntelipost();
+    res.json(result);
   } catch (error) {
-      res.status(500).json({ error: 'Erro ao processar a requisição.' });
+    res.status(500).json({ error: 'Erro ao processar a requisição OrdersFeedToIntelipost no routes.' });
   }
-});
-// rota teste Intelipost
-routes.get('/api/intelipost/teste', OrdersFeedToIntelipost.getShopeeOrders);
+});;
+
 
 // ############## FIM DAS ROTAS DE TESTE #####################
+
+
+
 
 
 // rota para alimentar a tabela StatusValidation
@@ -40,10 +47,10 @@ routes.post('/api/statusvalidation/new', StatusValidationController.store);
 // rota para rodar o StatusValidation
 routes.get('/api/statusvalidation', async (req, res) => {
   try {
-      const result = await OrdersStatusValidation.OrdersStatusValidation();
-      res.json(result);
+    const result = await OrdersStatusValidation.OrdersStatusValidation();
+    res.json(result);
   } catch (error) {
-      res.status(500).json({ error: 'Erro ao processar a requisição AQUI.' });
+    res.status(500).json({ error: 'Erro ao processar a requisição AQUI.' });
   }
 });
 
@@ -55,30 +62,30 @@ routes.post('/api/validacao/bseller/add', ErroIntegracaoController.store);
 // rota para validar se os pedidos da anymarket estão devidamente integrados no Bseller
 routes.get('/api/validacao/bseller', async (req, res) => {
   try {
-      const result = await OrdersValidationAnyToBseller.OrdersValidationAnyToBseller();
-      res.json(result);
+    const result = await OrdersValidationAnyToBseller.OrdersValidationAnyToBseller();
+    res.json(result);
   } catch (error) {
-      res.status(500).json({ error: 'Erro ao processar a requisição.' });
+    res.status(500).json({ error: 'Erro ao processar a requisição.' });
   }
 });
 
 // rota para alimentar a tabeka Anymarkets
 routes.get('/api/anymarket/orders/feed', async (req, res) => {
   try {
-      const result = await OrdersFeedToAnymarket.OrdersFeedToAnymarket();
-      res.json(result);
+    const result = await OrdersFeedToAnymarket.OrdersFeedToAnymarket();
+    res.json(result);
   } catch (error) {
-      res.status(500).json({ error: 'Erro ao processar a requisição.' });
+    res.status(500).json({ error: 'Erro ao processar a requisição.' });
   }
 });
 
 // rota para alimentar a tabela bsellers
 routes.get('/api/bseller/orders/feed', async (req, res) => {
   try {
-      const result = await OrdersFeedToBseller.ordersFeedToBseller280();
-      res.json(result);
+    const result = await OrdersFeedToBseller.ordersFeedToBseller280();
+    res.json(result);
   } catch (error) {
-      res.status(500).json({ error: 'Erro ao processar a requisição AQUI 2.' });
+    res.status(500).json({ error: 'Erro ao processar a requisição AQUI 2.' });
   }
 });
 

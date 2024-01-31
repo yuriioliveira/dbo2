@@ -1,5 +1,6 @@
 // Verificar se os status finalizadores ( CONCLUDED e CANCELED) estão equivalentes e então incluir uma 
 // flag para que não sejam consultados novamente. 
+// rever a logica para otimizar e não chamar o destroy desnecessariamente. 
 
 const Anymarket = require('../models/Anymarket');
 const Bseller = require('../models/Bseller');
@@ -27,8 +28,8 @@ async function OrdersStatusValidation() {
       const { status_anymarket, status_bseller, id_anymarket } = order;
 
       const validateStatusEquivalence = async (statusToCheckAnymarket, statusToCheckBseller) => {
-        const validadeReturn = await StatusEquivalence.CheckStatusEquivalence(statusToCheckAnymarket, statusToCheckBseller);
-        if (validadeReturn === true) {
+        const validateReturn = await StatusEquivalence.CheckStatusEquivalence(statusToCheckAnymarket, statusToCheckBseller);
+        if (validateReturn === true) {
           const checkAlreadyExist = await StatusValidation.findOne({
             where: {
               id_anymarket

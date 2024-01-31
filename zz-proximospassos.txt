@@ -2,8 +2,6 @@
 - Implementar uma tabela para pedidos do Bseller ( Shopee ) que não estão na intelipost para que possamos consumir e fazer o cadastro dos pedidos. 
 - OrdersStatusValidation: Verificar se os status finalizadores ( CONCLUDED e CANCELED) estão equivalentes e então incluir uma flag para que não sejam consultados novamente. 
 
-
-
 Tabelas para os problemas
 
 Apenas inserir nessa tabela pedidos que tenham problemas, sinalizando qual o problema dele. 
@@ -15,8 +13,6 @@ Apenas inserir nessa tabela pedidos que tenham problemas, sinalizando qual o pro
 - erro_aprovacao_pagamento_bseller
 - status_divergente_anymarket
 - status_divergente_intelipost
-
-
 
 ## INTELIPOST ##
     idIntelipost: string;

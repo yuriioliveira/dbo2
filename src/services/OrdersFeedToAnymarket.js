@@ -5,8 +5,8 @@ const OrdersFeedToAnymarket = async () => {
     let numeroPaginaAtual = 1;
     let offsetAtual = 0;
     let quantidadePaginas = 999;
-    let dataInicial = "2024-01-27";
-    let dataFinal = "2024-01-30";
+    let dataInicial = "2024-01-24";
+    let dataFinal = "2024-01-31";
 
     let registrosProcessados = 0;
     let registrosTotal = 0;
@@ -34,6 +34,8 @@ const OrdersFeedToAnymarket = async () => {
                     documento_cliente: order.buyer.document,
                     tipo_documento_cliente: order.buyer.documentType,
                     pedido_integrado_bseller: false,
+                    pedido_integrado_intelipost: false,
+                    monitorar_status: true,
                     app_nf_atualizada: false,
                     app_data_nf_atualizada: '',
                     app_status_pedido_atualizado: false,

@@ -114,6 +114,38 @@ Doc: https://docs.intelipost.com.br/
 		Consultar o status do pedido no Bseller
 		Atualizar o status do pedido na Intelipost
 
+banco
+	id_anymarket
+	id_entrega
+	id_marketplace
+	status_pedido {
+		status_anymarket
+		status_bseller
+		status_marketplace
+		status_intelipost
+	}
+	nota_fiscal_anymarket {
+		chave_nf_anymarket
+		numero_nf_anymarket
+		serie_nf_anymarket
+		data_nf_anymarket
+	}
+	nota_fiscal_intelipost {
+		chave_nf_anymarket
+		numero_nf_anymarket
+		serie_nf_anymarket
+		data_nf_anymarket
+	}
+
+
+Obter os pedidos Shopee da tabela Anymarkets
+
+
+
+
+pegar o id_entrega da tabela Bsellers
+
+
 	Endpoints:
 		https://api.intelipost.com.br/api/v1/shipment_order/{{pedido_de_entrega}}
 			Verificar a criação do pedido Shopee na Intelipost

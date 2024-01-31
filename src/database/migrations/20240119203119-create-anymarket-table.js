@@ -62,6 +62,14 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         allowNull: false,
       },
+      pedido_integrado_intelipost: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+      },
+      monitorar_status: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+      },
       app_nf_atualizada: Sequelize.BOOLEAN,
       app_data_nf_atualizada: Sequelize.STRING,
       app_status_pedido_atualizado: Sequelize.BOOLEAN,
