@@ -37,11 +37,11 @@ const anymarketValidationFindAll = async () => {
     }
 }
 
-const anymarketUpdateValidacao = async (idAnymarketUpdate) => {
+const anymarketUpdateValidacao = async (idAnymarketUpdate, anymarketInfoUpdate) => {
     
     try {
         await Anymarket.update(
-            { pedido_integrado_bseller: 'true' },
+            anymarketInfoUpdate,
             { where: { id_anymarket: idAnymarketUpdate } }
           );
     } catch (error) {

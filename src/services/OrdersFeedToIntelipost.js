@@ -1,10 +1,9 @@
 const Anymarket = require('../models/Anymarket');
 const Bseller = require('../models/Bseller');
 const Intelipost = require('../models/Intelipost');
-const { Sequelize, literal } = require('sequelize');
-
-// continuar a implementar a query, compor o envio dos dados para a tabela Intelipost e colocar um if para caso o pedido já exista lá não vir na consulta inicial. 
-// implementar para fazer o update na Anymarket para não trazer o pedido novamente. 
+const { Sequelize } = require('sequelize');
+const AnymarketUtils = require('../utils/AnymarketUtils');
+const IntelipostUtils = require('../utils/IntelipostUtils');
 
 async function getOrdersIntelipost() {
 
@@ -28,34 +27,34 @@ async function getOrdersIntelipost() {
       ordersIntelipost.push({
         id_anymarket: order.id_anymarket,
         id_entrega: order.id_entrega,
-        id_marketplace: order.id_marketplace,
-        status_anymarket: order.status_anymarket,
-        status_bseller: order.status_bseller,
-        status_marketplace: order.status_marketplace,
-        status_intelipost:"",
-        nota_fiscal_anymarket: {
-          "chave_nf": order.chave_nf,
-          "numero_nf_": order.numero_nf,
-          "serie_nf": order.serie_nf,
-          "data_nf": order.data_nf,
-        },
-        nota_fiscal_intelipost: {
-          "chave_nf": "",
-          "numero_nf": "",
-          "serie_nf": "",
-          "data_nf": ""
-        }
+        status_intelipost:'',
+        chave_nf: "",
+        numero_nf: "",
+        serie_nf: "",
+        data_nf: ""
       })
     }
-    console.log(ordersIntelipost)
+
     const result = await Intelipost.bulkCreate(ordersIntelipost, {
-      updateOnDuplicate: ['status_anymarket', 'status_bseller', 'status_marketplace', 'nota_fiscal_anymarket'],
+      updateOnDuplicate: ['id_anymarket', 'id_entrega'],
       conflictAttributes: ['id_anymarket']
     })
 
+    for (const item of ordersIntelipost) {
+      let findParametersIntelipost = {
+        "id_anymarket": item.id_anymarket
+      }
+      const intelipostOrder = await IntelipostUtils.intelipostFindOne(findParametersIntelipost);
+
+      if (intelipostOrder !== null) {
+        let idAnymarketUpdate = item.id_anymarket
+        let = anymarketUpdateValidacao = { pedido_integrado_intelipost: 'true' };
+        await AnymarketUtils.anymarketUpdateValidacao(idAnymarketUpdate, anymarketUpdateValidacao)
+      }
+    }
+
     registrosProcessados += result.length;
     registrosTotal = ordersToIntelipost.length
-
   } catch (error) {
     console.error('Erro na requisição OrdersFeedToIntelipost:', error.message);
   }

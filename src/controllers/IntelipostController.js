@@ -13,26 +13,22 @@ module.exports = {
     const { 
       id_anymarket,
       id_entrega,
-      id_marketplace,
-      status_anymarket,
-      status_bseller,
-      status_marketplace,
       status_intelipost,
-      nota_fiscal_anymarket,
-      nota_fiscal_intelipost
+      chave_nf,
+      numero_nf,
+      serie_nf,
+      data_nf
     } = req.body;
 
     try {
       const bseller = await Intelipost.create({ 
         id_anymarket,
         id_entrega,
-        id_marketplace,
-        status_anymarket,
-        status_bseller,
-        status_marketplace,
         status_intelipost,
-        nota_fiscal_anymarket,
-        nota_fiscal_intelipost
+        chave_nf,
+        numero_nf,
+        serie_nf,
+        data_nf
       });
   
       return res.json(bseller);

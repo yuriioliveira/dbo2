@@ -32,12 +32,15 @@ async function OrdersValidationAnyToBseller() {
             bsellerNaoIntegrados++;
           } else {
             let = idAnymarketUpdate = order.id_anymarket
+            let = anymarketUpdateValidacao = { pedido_integrado_bseller: 'true' };
             await AnymarketUtils.anymarketUpdateValidacao(idAnymarketUpdate)
             continue
           }
         } else {
           let idAnymarketUpdate = order.id_anymarket
-          await AnymarketUtils.anymarketUpdateValidacao(idAnymarketUpdate)
+          let = anymarketUpdateValidacao = { pedido_integrado_bseller: 'true' };
+
+          await AnymarketUtils.anymarketUpdateValidacao(idAnymarketUpdate, anymarketUpdateValidacao)
 
           let findParametersIntegracaoErros = {
             "id_anymarket": order.id_anymarket

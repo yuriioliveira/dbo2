@@ -19,31 +19,11 @@ module.exports = {
         allowNull: false,
         unique: true
       },
-      id_marketplace: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      status_anymarket: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      status_bseller: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      status_marketplace: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
       status_intelipost: Sequelize.STRING,
-      nota_fiscal_anymarket: {
-        type: Sequelize.JSONB,
-        allowNull: false,
-      },
-      nota_fiscal_intelipost: {
-        type: Sequelize.JSONB,
-        allowNull: false,
-      },
+      chave_nf: Sequelize.STRING,
+      numero_nf: Sequelize.STRING,
+      serie_nf: Sequelize.STRING,
+      data_nf: Sequelize.STRING,
       created_at: {
         type: Sequelize.DATE,
         allowNull: false,
