@@ -9,6 +9,7 @@ async function getOrdersIntelipost() {
 
   let registrosProcessados = 0;
   let registrosTotal = 0;
+
   try {
     const query = `
     SELECT a.id_anymarket, b.id_entrega, a.id_marketplace, a.status_anymarket, b.status_bseller, a.status_marketplace, a.chave_nf, a.numero_nf, a.serie_nf, a.data_nf
@@ -27,7 +28,7 @@ async function getOrdersIntelipost() {
       ordersIntelipost.push({
         id_anymarket: order.id_anymarket,
         id_entrega: order.id_entrega,
-        status_intelipost:'',
+        status_intelipost: null,
         chave_nf: "",
         numero_nf: "",
         serie_nf: "",

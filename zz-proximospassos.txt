@@ -3,6 +3,8 @@
 Repensar isso: - Implementar uma tabela para pedidos do Bseller ( Shopee ) que não estão na intelipost para que possamos consumir e fazer o cadastro dos pedidos. 
 - implementar a consulta na Intelipost para obter os dados do pedido
 
+C.riar funçao para atualizar o monitorar_status para false e remover da tabela status_validations
+
 Tabelas para os problemas
 
 Apenas inserir nessa tabela pedidos que tenham problemas, sinalizando qual o problema dele. 

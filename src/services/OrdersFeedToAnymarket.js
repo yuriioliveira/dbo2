@@ -5,8 +5,8 @@ const OrdersFeedToAnymarket = async () => {
     let numeroPaginaAtual = 1;
     let offsetAtual = 0;
     let quantidadePaginas = 999;
-    let dataInicial = "2024-01-24";
-    let dataFinal = "2024-01-31";
+    let dataInicial = "2024-01-25";
+    let dataFinal = "2024-02-01";
 
     let registrosProcessados = 0;
     let registrosTotal = 0;
@@ -57,7 +57,7 @@ const OrdersFeedToAnymarket = async () => {
                 numeroPaginaAtual++;
                 offsetAtual += 100;
             } catch (error) {
-                console.error('Erro na requisição AQUI:', error.message);
+                console.error('Erro na requisição services/OrdersFeedToAnymarmket.js: ', error.message);
                 break;
             }
         }

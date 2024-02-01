@@ -8,6 +8,7 @@ const IntelipostController = require('./controllers/IntelipostController');
 const OrdersFeedToAnymarket = require('./services/OrdersFeedToAnymarket');
 const OrdersFeedToBseller = require('./services/OrdersFeedToBseller');
 const OrdersFeedToIntelipost = require('./services/OrdersFeedToIntelipost');
+const UpdateFeedIntelipost = require('./services/UpdateFeedIntelipost');
 
 const OrdersValidationAnyToBseller = require('./services/OrdersValidationAnyToBseller');
 const OrdersStatusValidation = require('./services/OrdersStatusValidation');
@@ -20,11 +21,23 @@ routes.get('/', (req, res) => {
 
 // ############## INÍCIO DAS ROTAS DE TESTE #####################
 
+// rota para alimentar a tabela Inteliposts com o feed
+routes.get('/api/intelipost/orders/feed/update', async (req, res) => {
+  try {
+    const result = await UpdateFeedIntelipost.updateFeedIntelipost();
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: 'Erro ao processar a requisição UpdateFeedIntelipost no routes.' });
+  }
+});;
+
+// ############## FIM DAS ROTAS DE TESTE #####################
+
 // rotas para a nova tabela Inteliposts
 routes.get('/api/intelipost/orders', IntelipostController.index);
 routes.post('/api/intelipost/orders', IntelipostController.store);
 
-// rota teste para alimentar a tabela Inteliposts
+// rota para alimentar a tabela Inteliposts com o feed
 routes.get('/api/intelipost/orders/feed', async (req, res) => {
   try {
     const result = await OrdersFeedToIntelipost.getOrdersIntelipost();
@@ -33,11 +46,6 @@ routes.get('/api/intelipost/orders/feed', async (req, res) => {
     res.status(500).json({ error: 'Erro ao processar a requisição OrdersFeedToIntelipost no routes.' });
   }
 });;
-
-
-// ############## FIM DAS ROTAS DE TESTE #####################
-
-
 
 
 

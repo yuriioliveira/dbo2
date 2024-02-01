@@ -32,15 +32,15 @@ async function OrdersValidationAnyToBseller() {
             bsellerNaoIntegrados++;
           } else {
             let = idAnymarketUpdate = order.id_anymarket
-            let = anymarketUpdateValidacao = { pedido_integrado_bseller: 'true' };
-            await AnymarketUtils.anymarketUpdateValidacao(idAnymarketUpdate)
+            let = anymarketInfoUpdate = { pedido_integrado_bseller: 'true' };
+            await AnymarketUtils.anymarketUpdateValidacao(idAnymarketUpdate, anymarketInfoUpdate)
             continue
           }
         } else {
           let idAnymarketUpdate = order.id_anymarket
-          let = anymarketUpdateValidacao = { pedido_integrado_bseller: 'true' };
+          let = anymarketInfoUpdate = { pedido_integrado_bseller: 'true' };
 
-          await AnymarketUtils.anymarketUpdateValidacao(idAnymarketUpdate, anymarketUpdateValidacao)
+          await AnymarketUtils.anymarketUpdateValidacao(idAnymarketUpdate, anymarketInfoUpdate)
 
           let findParametersIntegracaoErros = {
             "id_anymarket": order.id_anymarket
