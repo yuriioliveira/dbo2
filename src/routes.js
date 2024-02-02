@@ -13,6 +13,7 @@ const IntelipostOrdersUpdateFeed = require('./services/IntelipostOrdersUpdateFee
 const AnyToBsellerIntegrationErrorFeed = require('./services/AnyToBsellerIntegrationErrorFeed');
 const AnyToBsellerStatusValidationFeed = require('./services/AnyToBsellerStatusValidationFeed');
 const BsellerToIntelipostStatusValidationFeed = require('./services/BsellerToIntelipostStatusValidationFeed');
+const BsellerOrdersFeedInvoiceUpdate = require('./services/BsellerOrdersFeedInvoiceUpdate');
 
 const routes = express.Router();
 
@@ -22,9 +23,23 @@ routes.get('/', (req, res) => {
 
 // ############## INÍCIO DAS ROTAS DE TESTE #####################
 
+// rota atualizar a tabela bseller_orders com as notas fiscais
+routes.get('/api/bseller/orders/feed/update', async (req, res) => {
+  try {
+    const result = await BsellerOrdersFeedInvoiceUpdate.BsellerOrdersFeedInvoiceUpdate();
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: 'Erro ao processar a requisição BsellerOrdersFeedInvoiceUpdate no routes.' });
+  }
+});;
+
+// ############## FIM DAS ROTAS DE TESTE #####################
+
+// rotas para puxar os dados da tabela bsellertointelipost_status_validations e para enviar um item para a tabela. 
 routes.get('/api/intelipost/checkstatus/index', BsellerToIntelipostStatusValidation.index);
 routes.post('/api/intelipost/checkstatus/add', BsellerToIntelipostStatusValidation.store);
 
+// rota para rodar a validação de status do Bseller e Intelipost
 routes.get('/api/intelipost/checkstatus', async (req, res) => {
   try {
     const result = await BsellerToIntelipostStatusValidationFeed.BsellerToIntelipostStatusValidationFeed();
@@ -33,8 +48,6 @@ routes.get('/api/intelipost/checkstatus', async (req, res) => {
     res.status(500).json({ error: 'Erro ao processar a requisição BsellerToIntelipostStatusValidationFeed no routes.' });
   }
 });;
-
-// ############## FIM DAS ROTAS DE TESTE #####################
 
 // rota para alimentar a tabela Inteliposts com o feed
 routes.get('/api/intelipost/orders/feed/update', async (req, res) => {

@@ -6,7 +6,6 @@ doc: https://developers.anymarket.com.br/api/v2/9d15f7643df9b-orders
 		
 		Pendente
 			Verificar se um pedido está há mais de 2 dias sem NF, após a aprovação do pagamento, sem contar final de semana
-			Obter dados da nota fiscal no Bseller
 			Enviar dados da nota fiscal
 			Atualizar o status do pedido
 
@@ -14,6 +13,7 @@ doc: https://developers.anymarket.com.br/api/v2/9d15f7643df9b-orders
 			Buscar todos os pedidos em um período determinado ( 7 dias? )
 			Armazenar os dados necessários no banco de dados
 			Verificar o status do pedido no Marketplace e comparar com o status da Anymarket e Bseller
+			Obter dados da nota fiscal no Bseller
 
 	Endpoints:
 	* obs * http://api.anymarket.com.br/v2/orders?offset=100&createdAfter=2024-01-15T00:00:00-03:00&createdBefore=2024-01-15T23:59:59-03:00&limit=100
@@ -68,7 +68,7 @@ https://api-dw.bseller.com.br/swagger-ui.html
 	Funcoes
 
 		Pendente
-			Obter dados da Nota fiscal
+			
 			Realizar aprovação do pagamento
 				Consultar os valores e sequencial para aprovação
 				Aprovar os valores e sequencial
@@ -80,7 +80,7 @@ https://api-dw.bseller.com.br/swagger-ui.html
 			Validar a integração do pedido da Anymarket no Bseller
 			Acompanhar a atualização dos status dos pedidos com a Anymarket
 			Verificar se o pedido pago na Anymarket está pago no Bseller
-
+			Obter dados da Nota fiscal
 
 	Endpoints: 
 		http://api-dw.bseller.com.br/webquery/execute/SIGEQ280 ( se atentar as datas )

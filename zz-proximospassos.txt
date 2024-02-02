@@ -1,9 +1,6 @@
 - Tratar retorno 429 na Anymarket
-- OrdersStatusValidation: Verificar se os status finalizadores ( CONCLUDED e CANCELED) estão equivalentes e então incluir uma flag para que não sejam consultados novamente. 
 Repensar isso: - Implementar uma tabela para pedidos do Bseller ( Shopee ) que não estão na intelipost para que possamos consumir e fazer o cadastro dos pedidos. 
-- implementar a consulta na Intelipost para obter os dados do pedido
 
-C.riar funçao para atualizar o monitorar_status para false e remover da tabela status_validations
 
 Tabelas para os problemas
 

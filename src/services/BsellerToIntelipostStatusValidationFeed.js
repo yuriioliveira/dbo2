@@ -32,6 +32,7 @@ async function BsellerToIntelipostStatusValidationFeed() {
 
         const getOrdersToCheckStatus = await IntelipostOrder.sequelize.query(query, {
             type: Sequelize.QueryTypes.SELECT
+
         });
 
         const ordersToUpdate = [];
@@ -40,8 +41,9 @@ async function BsellerToIntelipostStatusValidationFeed() {
 
         for (const order of getOrdersToCheckStatus) {
             const { id_anymarket, id_entrega, status_intelipost, status_bseller, status_anymarket } = order;
-            const validateStatusEquivalence = async (status_intelipost, status_bseller) => {
-                const validateReturn = await BsellerToIntelipostStatusEquivalenceUtils.BsellerToIntelipostCheckStatusEquivalence(status_intelipost, status_bseller);
+
+            const validateStatusEquivalence = async (statusToCheckIntelipost, statusToCheckBseller) => {
+                const validateReturn = await BsellerToIntelipostStatusEquivalenceUtils.BsellerToIntelipostCheckStatusEquivalence(statusToCheckIntelipost, statusToCheckBseller);
                 if (validateReturn === true) {
                     const checkAlreadyExist = await BsellertointelipostStatusValidation.findOne({
                         where: {
@@ -55,7 +57,6 @@ async function BsellerToIntelipostStatusValidationFeed() {
                         quantidadeStatusOk++;
                     }
                 } else {
-                    if (status_intelipost !== 'DELIVERED' && status_bseller !== 'ENT' && status_intelipost !== 'DELIVERY_FAILED' && status_bseller !== 'CAN') {
                     ordersToCreate.push({
                         id_anymarket,
                         id_entrega,
@@ -65,10 +66,10 @@ async function BsellerToIntelipostStatusValidationFeed() {
                     });
                     quantidadeStatuserro++;
                 }
-                }
-                if (status_intelipost === 'DELIVERED' && status_bseller === 'ENT') {
+
+                if (statusToCheckIntelipost === 'DELIVERED' && statusToCheckBseller === 'ENT') {
                     ordersToUpdate.push(id_anymarket);
-                } else if (status_bseller === 'DELIVERY_FAILED' && status_bseller === 'CAN') {
+                } else if (statusToCheckIntelipost === 'DELIVERY_FAILED' && statusToCheckBseller === 'CAN') {
                     ordersToUpdate.push(id_anymarket);
                 }
             };
@@ -82,12 +83,14 @@ async function BsellerToIntelipostStatusValidationFeed() {
                 }
             });
         }
+
         if (ordersToCreate.length > 0) {
             await BsellertointelipostStatusValidation.bulkCreate(ordersToCreate, {
                 updateOnDuplicate: ['status_bseller', 'status_intelipost', 'status_anymarket'],
                 conflictAttributes: ['id_anymarket']
             });
         }
+
         if (ordersToUpdate.length > 0) {
             await IntelipostOrder.update(
                 { monitorar_status: false },

@@ -2,6 +2,7 @@ const IntelipostOrder = require('../models/IntelipostOrder');
 const IntelipostUtils = require('../utils/IntelipostUtils');
 const { Sequelize } = require('sequelize');
 
+// nao atualizar pedidos com status após ETR e antes de NFS.  
 async function IntelipostOrdersUpdateFeed() {
 
     let registroAtualizados = 0;
