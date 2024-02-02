@@ -2,11 +2,11 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('intelipost_orders', {
+    return queryInterface.createTable('bsellertointelipost_status_validations', { 
       id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
-        allowNull: false
+        allowNull: false,
       },
       id_anymarket: {
         type: Sequelize.BIGINT,
@@ -19,13 +19,16 @@ module.exports = {
         allowNull: false,
         unique: true
       },
-      status_intelipost: Sequelize.STRING,
-      chave_nf: Sequelize.STRING,
-      numero_nf: Sequelize.STRING,
-      serie_nf: Sequelize.STRING,
-      data_nf: Sequelize.STRING,
-      monitorar_status: {
-        type: Sequelize.BOOLEAN,
+      status_bseller: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      status_intelipost: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      status_anymarket: {
+        type: Sequelize.STRING,
         allowNull: false,
       },
       created_at: {
@@ -40,6 +43,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('intelipost_orders');
+    return queryInterface.dropTable('bsellertointelipost_status_validations');
   }
 };

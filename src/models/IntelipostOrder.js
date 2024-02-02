@@ -10,6 +10,7 @@ class IntelipostOrder extends Model {
             numero_nf: DataTypes.STRING,
             serie_nf: DataTypes.STRING,
             data_nf: DataTypes.STRING,
+            monitorar_status: DataTypes.BOOLEAN
         }, {
             sequelize
           })

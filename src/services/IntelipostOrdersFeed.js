@@ -32,7 +32,8 @@ async function IntelipostOrdersFeed() {
         chave_nf: "",
         numero_nf: "",
         serie_nf: "",
-        data_nf: ""
+        data_nf: "",
+        monitorar_status: true
       })
     }
 

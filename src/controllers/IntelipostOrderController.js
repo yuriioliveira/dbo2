@@ -17,7 +17,8 @@ module.exports = {
       chave_nf,
       numero_nf,
       serie_nf,
-      data_nf
+      data_nf,
+      monitorar_status
     } = req.body;
 
     try {
@@ -28,7 +29,8 @@ module.exports = {
         chave_nf,
         numero_nf,
         serie_nf,
-        data_nf
+        data_nf,
+        monitorar_status
       });
   
       return res.json(bseller);

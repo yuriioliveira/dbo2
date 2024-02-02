@@ -4,6 +4,7 @@ const BsellerOrderController = require('./controllers/BsellerOrderController');
 const AnyToBsellerIntegrationErrorController = require('./controllers/AnyToBsellerIntegrationErrorController');
 const AnyToBsellerStatusValidation = require('./controllers/AnyToBsellerStatusValidation');
 const IntelipostOrderController = require('./controllers/IntelipostOrderController');
+const BsellerToIntelipostStatusValidation = require('./controllers/BsellerToIntelipostStatusValidation');
 
 const AnymarketOrdersFeed = require('./services/AnymarketOrdersFeed');
 const BsellerOrdersFeed = require('./services/BsellerOrdersFeed');
@@ -11,6 +12,7 @@ const IntelipostOrdersFeed = require('./services/IntelipostOrdersFeed');
 const IntelipostOrdersUpdateFeed = require('./services/IntelipostOrdersUpdateFeed');
 const AnyToBsellerIntegrationErrorFeed = require('./services/AnyToBsellerIntegrationErrorFeed');
 const AnyToBsellerStatusValidationFeed = require('./services/AnyToBsellerStatusValidationFeed');
+const BsellerToIntelipostStatusValidationFeed = require('./services/BsellerToIntelipostStatusValidationFeed');
 
 const routes = express.Router();
 
@@ -20,7 +22,17 @@ routes.get('/', (req, res) => {
 
 // ############## INÍCIO DAS ROTAS DE TESTE #####################
 
+routes.get('/api/intelipost/checkstatus/index', BsellerToIntelipostStatusValidation.index);
+routes.post('/api/intelipost/checkstatus/add', BsellerToIntelipostStatusValidation.store);
 
+routes.get('/api/intelipost/checkstatus', async (req, res) => {
+  try {
+    const result = await BsellerToIntelipostStatusValidationFeed.BsellerToIntelipostStatusValidationFeed();
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: 'Erro ao processar a requisição BsellerToIntelipostStatusValidationFeed no routes.' });
+  }
+});;
 
 // ############## FIM DAS ROTAS DE TESTE #####################
 
