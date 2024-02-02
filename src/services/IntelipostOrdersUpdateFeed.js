@@ -1,24 +1,19 @@
-const Intelipost = require('../models/Intelipost');
+const IntelipostOrder = require('../models/IntelipostOrder');
 const IntelipostUtils = require('../utils/IntelipostUtils');
 const { Sequelize } = require('sequelize');
 
-
-async function updateFeedIntelipost() {
+async function IntelipostOrdersUpdateFeed() {
 
     let registroAtualizados = 0;
     try {
-        const query = `SELECT * FROM Inteliposts WHERE status_intelipost IS NULL OR status_intelipost <> 'DELIVERED';`;
+        const query = `SELECT * FROM intelipost_orders WHERE status_intelipost IS NULL OR status_intelipost <> 'DELIVERED';`;
         
-        const ordersToIntelipost = await Intelipost.sequelize.query(query, {
+        const ordersToIntelipost = await IntelipostOrder.sequelize.query(query, {
             type: Sequelize.QueryTypes.SELECT,
         });
         
         for (const order of ordersToIntelipost ) {
             let idEntrega = order.id_entrega;
-            console.log("#### CHEGOU AQUI ####");
-            console.log(idEntrega)
-            console.log("#### Fim ####")
-
             const intelipostOrdersData = await IntelipostUtils.intelipostGetOrdersData(idEntrega);
 
             let idAnymarketUpdate = order.id_anymarket
@@ -33,8 +28,7 @@ async function updateFeedIntelipost() {
             await IntelipostUtils.intelipostUpdate(idAnymarketUpdate, intelipostInfoUpdate)
             registroAtualizados++;
         }
-
-        console.log(ordersToIntelipost)
+        
     } catch (error) {
         console.error('Erro em updateFeedIntelipost.js, Erro 01: ', error);
         
@@ -45,5 +39,5 @@ async function updateFeedIntelipost() {
 }
 
 module.exports = {
-    updateFeedIntelipost
+    IntelipostOrdersUpdateFeed
   };

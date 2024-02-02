@@ -1,11 +1,11 @@
-const StatusValidation = require('../models/StatusValidation');
+const AnyToBsellerStatusValidation = require('../models/AnytobsellerStatusValidation');
 
 //  controller para puxar e criar registros na tabela StatusValidation
 
 module.exports = {
   // método de index do banco
   async index(req, res) {
-    const ordersStatusValidation = await StatusValidation.findAll();
+    const ordersStatusValidation = await AnyToBsellerStatusValidation.findAll();
 
     return res.json(ordersStatusValidation);
   },
@@ -19,7 +19,7 @@ module.exports = {
     } = req.body;
 
     try {
-      const ordersStatusValidationStore = await StatusValidation.create({ 
+      const ordersStatusValidationStore = await AnyToBsellerStatusValidation.create({ 
         id_anymarket,
         status_anymarket,
         status_bseller,

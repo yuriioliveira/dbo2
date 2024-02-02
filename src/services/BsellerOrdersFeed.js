@@ -1,7 +1,7 @@
 const BsellerUtils = require('../utils/BsellerUtils');
-const Bseller = require('../models/Bseller');
+const BsellerOrder = require('../models/BsellerOrder');
 
-const ordersFeedToBseller280 = async () => {
+const BsellerOrdersFeed = async () => {
     let dataInicial = "25/01/2024";
     let dataFinal = "01/02/2024";
     let registrosProcessados = 0;
@@ -30,7 +30,7 @@ const ordersFeedToBseller280 = async () => {
         }
         }
 
-        const result = await Bseller.bulkCreate(orders_bseller,{
+        const result = await BsellerOrder.bulkCreate(orders_bseller,{
             updateOnDuplicate: ['id_entrega','status_bseller'],
             conflictAttributes: ['id_entrega']
         })
@@ -48,5 +48,5 @@ const ordersFeedToBseller280 = async () => {
 }
 
 module.exports = {
-    ordersFeedToBseller280
+    BsellerOrdersFeed
 };

@@ -1,9 +1,9 @@
-const Intelipost = require('../models/Intelipost');
+const IntelipostOrder = require('../models/IntelipostOrder');
 
 module.exports = {
   // método de index do banco
   async index(req, res) {
-    const orders_bseller = await Intelipost.findAll();
+    const orders_bseller = await IntelipostOrder.findAll();
 
     return res.json(orders_bseller);
   },
@@ -21,7 +21,7 @@ module.exports = {
     } = req.body;
 
     try {
-      const bseller = await Intelipost.create({ 
+      const bseller = await IntelipostOrder.create({ 
         id_anymarket,
         id_entrega,
         status_intelipost,

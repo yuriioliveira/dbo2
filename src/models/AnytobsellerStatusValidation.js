@@ -1,15 +1,15 @@
 const { Model, DataTypes } = require('sequelize');
 
-class IntegracaoBsellerErros extends Model {
+class AnytobsellerStatusValidation extends Model {
     static init(sequelize) {
         super.init({
             id_anymarket: DataTypes.BIGINT,
-            fulfillment: DataTypes.BOOLEAN,
             status_anymarket: DataTypes.STRING,
+            status_bseller: DataTypes.STRING,
         }, {
             sequelize
           })
         }
 }
 
-module.exports = IntegracaoBsellerErros;
+module.exports = AnytobsellerStatusValidation;

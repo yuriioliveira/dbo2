@@ -1,7 +1,7 @@
 const AnymarketUtils = require('../utils/AnymarketUtils');
-const Anymarket = require('../models/Anymarket');
+const AnymarketOrder = require('../models/AnymarketOrder');
 
-const OrdersFeedToAnymarket = async () => {
+const AnymarketOrdersFeed = async () => {
     let numeroPaginaAtual = 1;
     let offsetAtual = 0;
     let quantidadePaginas = 999;
@@ -45,7 +45,7 @@ const OrdersFeedToAnymarket = async () => {
                 });
             }
 
-                const result = await Anymarket.bulkCreate(orders_anymarket,{
+                const result = await AnymarketOrder.bulkCreate(orders_anymarket,{
                     updateOnDuplicate: ['id_anymarket','status_anymarket', 'status_marketplace','chave_nf','numero_nf','serie_nf','data_nf'],
                     conflictAttributes: ['id_anymarket']
                 })
@@ -69,5 +69,5 @@ const OrdersFeedToAnymarket = async () => {
     }
     
     module.exports = {
-        OrdersFeedToAnymarket,
+        AnymarketOrdersFeed,
     };

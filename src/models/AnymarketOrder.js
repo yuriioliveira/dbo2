@@ -1,6 +1,6 @@
 const { Model, DataTypes } = require('sequelize');
 
-class Anymarket extends Model {
+class AnymarketOrder extends Model {
     static init(sequelize) {
         super.init({
             id_anymarket: DataTypes.BIGINT,
@@ -33,4 +33,4 @@ class Anymarket extends Model {
         }
     }
 
-module.exports = Anymarket;
+module.exports = AnymarketOrder;

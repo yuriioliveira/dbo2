@@ -2,39 +2,28 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('bsellers', { 
+    return queryInterface.createTable('intelipost_orders', {
       id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
-        allowNull: false,
+        allowNull: false
       },
       id_anymarket: {
         type: Sequelize.BIGINT,
-        allowNull: false,
+        primaryKey: true,
+        unique: true,
+        allowNull: false
       },
       id_entrega: {
         type: Sequelize.BIGINT,
         allowNull: false,
-        unique: true,
+        unique: true
       },
-      status_bseller: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      data_pedido: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
+      status_intelipost: Sequelize.STRING,
       chave_nf: Sequelize.STRING,
       numero_nf: Sequelize.STRING,
       serie_nf: Sequelize.STRING,
       data_nf: Sequelize.STRING,
-      pedido_integrado_intelipost: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false,
-      },
-      app_pagamento_aprovado: Sequelize.BOOLEAN,
-      app_data_aprovacao_pagamento: Sequelize.STRING,
       created_at: {
         type: Sequelize.DATE,
         allowNull: false,
@@ -47,6 +36,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('bsellers');
+    return queryInterface.dropTable('intelipost_orders');
   }
 };

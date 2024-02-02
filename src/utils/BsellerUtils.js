@@ -1,5 +1,5 @@
 const axios = require('axios');
-const Bseller= require('../models/Bseller');
+const BsellerOrder = require('../models/BsellerOrder');
 
 const getOrdersFrom280Bseller = async (dataInicial, dataFinal) => {
     const requestData = {
@@ -32,7 +32,7 @@ const getOrdersFrom280Bseller = async (dataInicial, dataFinal) => {
 
 const bsellerFindOne = async (findParametersBseller) => {
   try {
-      const returnBsellerFindOne = await Bseller.findOne({
+      const returnBsellerFindOne = await BsellerOrder.findOne({
         where: 
         findParametersBseller
         })

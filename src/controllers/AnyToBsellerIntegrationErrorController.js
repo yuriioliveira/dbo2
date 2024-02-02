@@ -1,11 +1,11 @@
-const IntegracaoBsellerErros = require('../models/integracaoBsellerErros');
+const AnyToBsellerIntegrationError = require('../models/AnytobsellerIntegrationError');
 
 //  controller para puxar e criar registros na tabela integracao_bseller_erros
 
 module.exports = {
   // método de index do banco
   async index(req, res) {
-    const ordersErroIntegracao = await IntegracaoBsellerErros.findAll();
+    const ordersErroIntegracao = await AnyToBsellerIntegrationError.findAll();
 
     return res.json(ordersErroIntegracao);
   },
@@ -19,7 +19,7 @@ module.exports = {
     } = req.body;
 
     try {
-      const errosIntegracao = await IntegracaoBsellerErros.create({ 
+      const errosIntegracao = await AnyToBsellerIntegrationError.create({ 
         id_anymarket,
         fulfillment,
         status_anymarket,

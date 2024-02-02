@@ -1,23 +1,23 @@
-const Anymarket = require('../models/Anymarket');
-const Bseller = require('../models/Bseller');
-const StatusValidation = require('../models/StatusValidation');
+const AnymarketOrder = require('../models/AnymarketOrder');
+const BsellerOrder = require('../models/BsellerOrder');
+const AnyToBsellerStatusValidation = require('../models/AnytobsellerStatusValidation');
 const { Sequelize } = require('sequelize');
-const StatusEquivalence = require('../utils/StatusEquivalence');
+const AnyToBsellerStatusEquivalenceUtils = require('../utils/AnyToBsellerStatusEquivalenceUtils');
 
-async function OrdersStatusValidation() {
+async function AnyToBsellerStatusValidationFeed() {
   let quantidadeStatusOk = 0;
   let quantidadeStatuserro = 0;
 
   try {
     const query = `
       SELECT a.id_anymarket, a.status_anymarket, b.id_entrega, b.status_bseller
-      FROM anymarkets a
-      JOIN bsellers b ON a.id_anymarket = b.id_anymarket
+      FROM anymarket_orders a
+      JOIN bseller_orders b ON a.id_anymarket = b.id_anymarket
       WHERE a.fulfillment = false AND a.monitorar_status = true
     `;
-    const getOrdersToCheckStatus = await Anymarket.sequelize.query(query, {
+    const getOrdersToCheckStatus = await AnymarketOrder.sequelize.query(query, {
       type: Sequelize.QueryTypes.SELECT,
-      include: [Bseller]
+      include: [BsellerOrder]
     });
 
     const ordersToUpdate = [];
@@ -28,9 +28,9 @@ async function OrdersStatusValidation() {
       const { status_anymarket, status_bseller, id_anymarket } = order;
 
       const validateStatusEquivalence = async (statusToCheckAnymarket, statusToCheckBseller) => {
-        const validateReturn = await StatusEquivalence.CheckStatusEquivalence(statusToCheckAnymarket, statusToCheckBseller);
+        const validateReturn = await AnyToBsellerStatusEquivalenceUtils.CheckStatusEquivalence(statusToCheckAnymarket, statusToCheckBseller);
         if (validateReturn === true) {
-          const checkAlreadyExist = await StatusValidation.findOne({
+          const checkAlreadyExist = await AnyToBsellerStatusValidation.findOne({
             where: {
               id_anymarket
             }
@@ -61,7 +61,7 @@ async function OrdersStatusValidation() {
     }
 
     if (ordersToDelete.length > 0) {
-      await StatusValidation.destroy({
+      await AnyToBsellerStatusValidation.destroy({
         where: {
           id_anymarket: ordersToDelete
         }
@@ -69,14 +69,14 @@ async function OrdersStatusValidation() {
     }
 
     if (ordersToCreate.length > 0) {
-      await StatusValidation.bulkCreate(ordersToCreate, {
+      await AnyToBsellerStatusValidation.bulkCreate(ordersToCreate, {
         updateOnDuplicate: ['status_anymarket', 'status_bseller'],
         conflictAttributes: ['id_anymarket']
     });
     }
 
     if (ordersToUpdate.length > 0) {
-      await Anymarket.update(
+      await AnymarketOrder.update(
         { monitorar_status: false },
         {
           where: {
@@ -93,5 +93,5 @@ async function OrdersStatusValidation() {
 }
 
 module.exports = {
-  OrdersStatusValidation
+  AnyToBsellerStatusValidationFeed
 };

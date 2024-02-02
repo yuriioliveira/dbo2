@@ -1,9 +1,11 @@
-const IntegracaoBsellerErros = require('../models/integracaoBsellerErros');
+// ZERAR O BANCO E TESTAR NOVAMENTE FORCANDO ERRO DE INTEGRAÇÃO
+
+const AnytobsellerIntegrationError = require('../models/AnytobsellerIntegrationError');
 const AnymarketUtils = require('../utils/AnymarketUtils');
 const BsellerUtils = require('../utils/BsellerUtils');
-const IntegracaoBsellerErrosUtils = require('../utils/IntegracaoBsellerErrosUtils');
+const AnyToBsellerIntegrationErrorUtils = require('../utils/AnyToBsellerIntegrationErrorUtils');
 
-async function OrdersValidationAnyToBseller() {
+async function AnyToBsellerIntegrationErrorFeed() {
   let bsellerIntegrados = 0;
   let bsellerNaoIntegrados = 0;
 
@@ -21,10 +23,10 @@ async function OrdersValidationAnyToBseller() {
           let findParametersIntegracaoErros = {
             "id_anymarket": order.id_anymarket
           }
-          const checkErroIntegracao = await IntegracaoBsellerErrosUtils.integracaoErrosFindOne(findParametersIntegracaoErros);
+          const checkErroIntegracao = await AnyToBsellerIntegrationErrorUtils.integracaoErrosFindOne(findParametersIntegracaoErros);
 
           if (checkErroIntegracao === null && order.status_anymarket !== 'CANCELED') {
-            await IntegracaoBsellerErros.create({
+            await AnytobsellerIntegrationError.create({
               id_anymarket: order.id_anymarket,
               fulfillment: order.fulfillment,
               status_anymarket: order.status_anymarket
@@ -38,14 +40,17 @@ async function OrdersValidationAnyToBseller() {
           }
         } else {
           let idAnymarketUpdate = order.id_anymarket
-          let = anymarketInfoUpdate = { pedido_integrado_bseller: 'true' };
+          let anymarketInfoUpdate = { pedido_integrado_bseller: 'true' };
 
           await AnymarketUtils.anymarketUpdateValidacao(idAnymarketUpdate, anymarketInfoUpdate)
 
           let findParametersIntegracaoErros = {
             "id_anymarket": order.id_anymarket
           }
-            await IntegracaoBsellerErrosUtils.integracaoErrosDestroy(findParametersIntegracaoErros);
+            await AnytobsellerIntegrationError.destroy(
+              { where:
+                findParametersIntegracaoErros 
+              });
             
           bsellerIntegrados++;
         }
@@ -65,5 +70,5 @@ async function OrdersValidationAnyToBseller() {
 }
 
 module.exports = {
-  OrdersValidationAnyToBseller
+  AnyToBsellerIntegrationErrorFeed
 };

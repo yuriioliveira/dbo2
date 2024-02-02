@@ -1,19 +1,18 @@
 const Sequelize = require('sequelize');
 const dbConfig = require('../config/database');
 
-const Anymarket = require('../models/Anymarket');
-const Bseller = require('../models/Bseller');
-const IntegracaoBsellerErros = require('../models/integracaoBsellerErros');
-const StatusValidation = require('../models/StatusValidation');
-const Intelipost = require('../models/Intelipost');
+const AnymarketOrder = require('../models/AnymarketOrder');
+const BsellerOrder = require('../models/BsellerOrder');
+const AnytobsellerIntegrationError = require('../models/AnytobsellerIntegrationError');
+const AnytobsellerStatusValidation = require('../models/AnytobsellerStatusValidation');
+const IntelipostOrder = require('../models/IntelipostOrder');
 
 const connection = new Sequelize(dbConfig);
 
-Anymarket.init(connection);
-Bseller.init(connection);
-IntegracaoBsellerErros.init(connection);
-StatusValidation.init(connection);
-Intelipost.init(connection);
-
+AnymarketOrder.init(connection);
+BsellerOrder.init(connection);
+AnytobsellerIntegrationError.init(connection);
+AnytobsellerStatusValidation.init(connection);
+IntelipostOrder.init(connection);
 
 module.exports = connection;

@@ -1,9 +1,9 @@
 const axios = require('axios');
-const Intelipost = require('../models/Intelipost');
+const IntelipostOrder = require('../models/IntelipostOrder');
 
 const intelipostFindOne = async (findParametersIntelipost) => {
     try {
-        const returnIntelipostFindOne = await Intelipost.findOne({
+        const returnIntelipostFindOne = await IntelipostOrder.findOne({
           where: 
           findParametersIntelipost
           })
@@ -18,7 +18,7 @@ const intelipostFindOne = async (findParametersIntelipost) => {
 
   const intelipostFindAll = async (findParametersIntelipost) => {
     try {
-        const returnIntelipostFindOne = await Intelipost.findAll({
+        const returnIntelipostFindOne = await IntelipostOrder.findAll({
           where: 
           findParametersIntelipost
           })
@@ -34,7 +34,7 @@ const intelipostFindOne = async (findParametersIntelipost) => {
   const intelipostUpdate = async (idAnymarketUpdate, intelipostInfoUpdate) => {
     
     try {
-        await Intelipost.update(
+        await IntelipostOrder.update(
           intelipostInfoUpdate,
             { where: { id_anymarket: idAnymarketUpdate } }
           );

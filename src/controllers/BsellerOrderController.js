@@ -1,9 +1,9 @@
-const Bseller = require('../models/Bseller');
+const BsellerOrder = require('../models/BsellerOrder');
 
 module.exports = {
   // método de index do banco
   async index(req, res) {
-    const orders_bseller = await Bseller.findAll();
+    const orders_bseller = await BsellerOrder.findAll();
 
     return res.json(orders_bseller);
   },
@@ -25,7 +25,7 @@ module.exports = {
     } = req.body;
 
     try {
-      const bseller = await Bseller.create({ 
+      const bseller = await BsellerOrder.create({ 
         id_anymarket,
         id_entrega,
         status_bseller,

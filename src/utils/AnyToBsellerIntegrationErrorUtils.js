@@ -1,9 +1,8 @@
-const IntegracaoBsellerErros = require('../models/integracaoBsellerErros');
-
+const AnytobsellerIntegrationError = require('../models/AnytobsellerIntegrationError');
 
 const integracaoErrosFindOne = async (findParametersIntegracaoErros) => {
     try {
-        const returnIntegracaoErrosFindOne = await IntegracaoBsellerErros.findOne({
+        const returnIntegracaoErrosFindOne = await AnytobsellerIntegrationError.findOne({
           where: 
           findParametersIntegracaoErros
           })
@@ -11,14 +10,14 @@ const integracaoErrosFindOne = async (findParametersIntegracaoErros) => {
           return returnIntegracaoErrosFindOne;
   
     } catch (error) {
-        console.error('Erro em IntegracaoBsellerErrosUtils.js, função: integracaoErrosFindOne: ', error.message);
+        console.error('Erro em AnyToBsellerIntegrationErrorUtils.js, função: integracaoErrosFindOne: ', error.message);
         throw error;
     }
   }
 
   const integracaoErrosDestroy = async (findParametersIntegracaoErros) => {
     try {
-        await IntegracaoBsellerErros.destroy(
+        await AnytobsellerIntegrationError.destroy(
             { where:
               findParametersIntegracaoErros 
             });
@@ -26,7 +25,7 @@ const integracaoErrosFindOne = async (findParametersIntegracaoErros) => {
           return ("id removido com sucesso")
   
     } catch (error) {
-        console.error('Erro em IntegracaoBsellerErrosUtils.js, função: integracaoErrosDestroy: ', error.message);
+        console.error('Erro em AnyToBsellerIntegrationErrorUtils.js, função: integracaoErrosDestroy: ', error.message);
         throw error;
     }
   }

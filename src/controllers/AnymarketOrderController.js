@@ -1,9 +1,9 @@
-const Anymarket = require('../models/Anymarket');
+const AnymarketOrder = require('../models/AnymarketOrder');
 
 module.exports = {
   // método de index do banco
   async index(req, res) {
-    const orders_anymarket = await Anymarket.findAll();
+    const orders_anymarket = await AnymarketOrder.findAll();
 
     return res.json(orders_anymarket);
   },
@@ -38,7 +38,7 @@ module.exports = {
     } = req.body;
 
     try {
-      const anymarket = await Anymarket.create({ 
+      const anymarket = await AnymarketOrder.create({ 
         id_anymarket,
         id_marketplace,
         status_anymarket,

@@ -2,7 +2,7 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('status_validations', { 
+    return queryInterface.createTable('anytobseller_integration_errors', { 
       id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
@@ -11,14 +11,13 @@ module.exports = {
       id_anymarket: {
         type: Sequelize.BIGINT,
         primaryKey: true,
-        unique: true,
+        allowNull: false,
+      },
+      fulfillment: {
+        type: Sequelize.BOOLEAN,
         allowNull: false,
       },
       status_anymarket: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      status_bseller: {
         type: Sequelize.STRING,
         allowNull: false,
       },
@@ -34,6 +33,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('status_validations');
+    return queryInterface.dropTable('anytobseller_integration_errors');
   }
 };

@@ -1,5 +1,5 @@
 const axios = require('axios');
-const Anymarket = require('../models/Anymarket');
+const AnymarketOrder = require('../models/AnymarketOrder');
 
 const getOrdersFromAnymarket = async (dataInicial, dataFinal, offsetAtual) => {
     // tratar o erro 429, para dar um timeout e tentar novamente
@@ -21,7 +21,7 @@ const getOrdersFromAnymarket = async (dataInicial, dataFinal, offsetAtual) => {
 const anymarketValidationFindAll = async () => {
     
     try {
-        const anymarketOrdersValidacao = await Anymarket.findAll({
+        const anymarketOrdersValidacao = await AnymarketOrder.findAll({
             where: {
               fulfillment: false,
               pedido_integrado_bseller: false
@@ -40,7 +40,7 @@ const anymarketValidationFindAll = async () => {
 const anymarketUpdateValidacao = async (idAnymarketUpdate, anymarketInfoUpdate) => {
     
     try {
-        await Anymarket.update(
+        await AnymarketOrder.update(
             anymarketInfoUpdate,
             { where: { id_anymarket: idAnymarketUpdate } }
           );
