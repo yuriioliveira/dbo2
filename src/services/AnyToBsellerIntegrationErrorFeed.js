@@ -33,9 +33,6 @@ async function AnyToBsellerIntegrationErrorFeed() {
             });
             bsellerNaoIntegrados++;
           } else {
-            let = idAnymarketUpdate = order.id_anymarket
-            let = anymarketInfoUpdate = { pedido_integrado_bseller: 'true' };
-            await AnymarketUtils.anymarketUpdateValidacao(idAnymarketUpdate, anymarketInfoUpdate)
             continue
           }
         } else {

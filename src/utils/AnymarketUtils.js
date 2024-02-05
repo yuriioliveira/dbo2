@@ -13,8 +13,15 @@ const getOrdersFromAnymarket = async (dataInicial, dataFinal, offsetAtual) => {
 
         return response.data;
     } catch (error) {
-        console.error('Erro em AnymarketUtils.js, função: getOrdersFromAnymarket: ', error.message);
-        throw error;
+        if (error.response && error.response.status === 429) {
+            console.error('Erro 429 em AnymarketUtils.js, função: getOrdersFromAnymarket. Tentando novamente em 30 segundos.');
+            await new Promise(resolve => setTimeout(resolve, 30000)); // Espera 30 segundos
+            console.log('Tentando novamente...')
+            return getOrdersFromAnymarket(dataInicial, dataFinal, offsetAtual); // Tenta novamente
+        } else {
+            console.error('Erro em AnymarketUtils.js, função: getOrdersFromAnymarket: ', error.message);
+            throw error;
+        }
     }
 };
 

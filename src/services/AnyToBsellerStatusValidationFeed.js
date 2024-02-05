@@ -4,6 +4,8 @@ const AnyToBsellerStatusValidation = require('../models/AnytobsellerStatusValida
 const { Sequelize } = require('sequelize');
 const AnyToBsellerStatusEquivalenceUtils = require('../utils/AnyToBsellerStatusEquivalenceUtils');
 
+//Criar um botão para atualizar o pedido da anymarket no banco e recomparar os dados. 
+
 async function AnyToBsellerStatusValidationFeed() {
   let quantidadeStatusOk = 0;
   let quantidadeStatuserro = 0;
@@ -13,7 +15,7 @@ async function AnyToBsellerStatusValidationFeed() {
       SELECT a.id_anymarket, a.status_anymarket, b.id_entrega, b.status_bseller
       FROM anymarket_orders a
       JOIN bseller_orders b ON a.id_anymarket = b.id_anymarket
-      WHERE a.fulfillment = false AND a.monitorar_status = true
+      WHERE a.fulfillment = false AND a.monitorar_status = true AND b.origem_pedido = 'Site'
     `;
     const getOrdersToCheckStatus = await AnymarketOrder.sequelize.query(query, {
       type: Sequelize.QueryTypes.SELECT,

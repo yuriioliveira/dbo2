@@ -28,6 +28,8 @@ async function BsellerToIntelipostStatusValidationFeed() {
             bseller_orders b ON a.id_anymarket = b.id_anymarket
         JOIN 
             anymarket_orders c ON a.id_anymarket = c.id_anymarket
+        WHERE
+            b.origem_pedido <> 'Troca'
       `;
 
         const getOrdersToCheckStatus = await IntelipostOrder.sequelize.query(query, {

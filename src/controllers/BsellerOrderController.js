@@ -21,7 +21,8 @@ module.exports = {
         data_nf,
         pedido_integrado_bseller,
         app_pagamento_aprovado,
-        app_data_aprovacao_pagamento
+        app_data_aprovacao_pagamento,
+        origem_pedido
     } = req.body;
 
     try {
@@ -35,7 +36,8 @@ module.exports = {
         data_nf,
         pedido_integrado_bseller,
         app_pagamento_aprovado,
-        app_data_aprovacao_pagamento
+        app_data_aprovacao_pagamento,
+        origem_pedido
       });
   
       return res.json(bseller);

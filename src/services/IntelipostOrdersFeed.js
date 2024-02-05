@@ -5,6 +5,8 @@ const { Sequelize } = require('sequelize');
 const AnymarketUtils = require('../utils/AnymarketUtils');
 const IntelipostUtils = require('../utils/IntelipostUtils');
 
+// Verificar para não entrar duplicidade no array ordersIntelipost
+
 async function IntelipostOrdersFeed() {
 
   let registrosProcessados = 0;

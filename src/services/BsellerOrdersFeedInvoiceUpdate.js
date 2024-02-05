@@ -1,15 +1,15 @@
 const BsellerUtils = require('../utils/BsellerUtils');
 const BsellerOrder = require('../models/BsellerOrder');
-const { Sequelize } = require('sequelize');
 
 // teoricamente vai pegar todas as NF do dia e atualizar a base, caso alguma NF seja cancelada e emitida novamente, a tabela deve ser atualizada.
 // poosso pensar numa logica para identificar pedidos sem NF e buscar através daqui pela data do pedido a atualizaçãso da NF. 
+// só chamar o update para pedidos sem chave_nf com status maior ou igual ETR
 
 async function BsellerOrdersFeedInvoiceUpdate() {
     let registroAtualizados = 0;
     let registrosTotal = 0;
-    let dataInicial = "26/01/2024";
-    let dataFinal = "02/02/2024";
+    let dataInicial = "20/01/2024";
+    let dataFinal = "05/02/2024";
 
     try {
         const conteudo = await BsellerUtils.getInvoiceFromBseller(dataInicial, dataFinal);
@@ -30,9 +30,7 @@ async function BsellerOrdersFeedInvoiceUpdate() {
             });
         }
         }
-        console.log("####### INICIO ######")
-        console.log(orders_bseller)
-        console.log("####### FIM ######")
+
         for (const item of orders_bseller) {
             await BsellerOrder.update({
                 chave_nf: item.chave_nf,

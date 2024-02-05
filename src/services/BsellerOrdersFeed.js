@@ -2,8 +2,8 @@ const BsellerUtils = require('../utils/BsellerUtils');
 const BsellerOrder = require('../models/BsellerOrder');
 
 const BsellerOrdersFeed = async () => {
-    let dataInicial = "26/01/2024";
-    let dataFinal = "02/02/2024";
+    let dataInicial = "20/01/2024";
+    let dataFinal = "05/02/2024";
     let registrosProcessados = 0;
     let registrosTotal = 0;
 
@@ -25,13 +25,14 @@ const BsellerOrdersFeed = async () => {
                 data_nf: '',
                 pedido_integrado_intelipost: false,
                 app_pagamento_aprovado: false,
-                app_data_aprovacao_pagamento: ''
+                app_data_aprovacao_pagamento: '',
+                origem_pedido: order.ID_ORIGEM
             });
         }
         }
 
         const result = await BsellerOrder.bulkCreate(orders_bseller,{
-            updateOnDuplicate: ['id_entrega','status_bseller'],
+            updateOnDuplicate: ['id_entrega','status_bseller', 'origem_pedido'],
             conflictAttributes: ['id_entrega']
         })
 
