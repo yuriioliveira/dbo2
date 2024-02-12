@@ -17,7 +17,7 @@ async function IntelipostOrdersFeed() {
     SELECT a.id_anymarket, b.id_entrega, a.id_marketplace, a.status_anymarket, b.status_bseller, a.status_marketplace, a.chave_nf, a.numero_nf, a.serie_nf, a.data_nf
     FROM anymarket_orders a
     JOIN bseller_orders b ON a.id_anymarket = b.id_anymarket
-    WHERE a.marketplace_nome = 'SHOPEE' AND a.pedido_integrado_intelipost = false;
+    WHERE a.marketplace_nome = 'SHOPEE' AND a.pedido_integrado_intelipost = false AND b.origem_pedido = 'Site';
     `;
 
     const ordersToIntelipost = await AnymarketOrder.sequelize.query(query, {
@@ -25,6 +25,8 @@ async function IntelipostOrdersFeed() {
       include: [BsellerOrder]
     });
 
+
+    console.log(ordersToIntelipost)
     const ordersIntelipost = []
     for (const order of ordersToIntelipost) {
       ordersIntelipost.push({

@@ -1,7 +1,7 @@
 const IntelipostOrder = require('../models/IntelipostOrder');
 const IntelipostUtils = require('../utils/IntelipostUtils');
 const { Sequelize } = require('sequelize');
-
+// TRATAR ERRO 400 NA INTELIPOST PELO PEDIDO NAO EXISTIR
 // nao atualizar pedidos com status após ETR e antes de NFS.  
 async function IntelipostOrdersUpdateFeed() {
 
@@ -25,7 +25,8 @@ async function IntelipostOrdersUpdateFeed() {
                 serie_nf: intelipostOrdersData.content.shipment_order_volume_array[0].shipment_order_volume_invoice.invoice_series,
                 data_nf: intelipostOrdersData.content.shipment_order_volume_array[0].shipment_order_volume_invoice.invoice_date_iso_iso
             };
-
+            console.log(intelipostInfoUpdate)
+            console.log("### CHEGOU AQUI ####")
             await IntelipostUtils.intelipostUpdate(idAnymarketUpdate, intelipostInfoUpdate)
             registroAtualizados++;
         }

@@ -4,7 +4,10 @@ const AnymarketOrder = require('../models/AnymarketOrder');
 const getOrdersFromAnymarket = async (dataInicial, dataFinal, offsetAtual) => {
     // tratar o erro 429, para dar um timeout e tentar novamente
     try {
-        const response = await axios.get(`http://api.anymarket.com.br/v2/orders?createdAfter=${dataInicial}T00:00:00-03:00&createdBefore=${dataFinal}T23:59:59-03:00&limit=100&offset=${offsetAtual}`, {
+        let urlRequest = `http://api.anymarket.com.br/v2/orders?createdAfter=${dataInicial}T00:00:00-03:00&createdBefore=${dataFinal}T23:59:59-03:00&limit=100&offset=${offsetAtual}`;
+        console.log('urlRequest: ', urlRequest);
+        console.log('offset: ', offsetAtual)
+        const response = await axios.get(urlRequest, {
             headers: {
                 'gumgaToken': process.env.TOKEN_ANYMARKET,
                 'Content-Type': 'application/json'

@@ -2,8 +2,8 @@ const BsellerUtils = require('../utils/BsellerUtils');
 const BsellerOrder = require('../models/BsellerOrder');
 
 const BsellerOrdersFeed = async () => {
-    let dataInicial = "20/01/2024";
-    let dataFinal = "05/02/2024";
+    let dataInicial = "10/02/2024";
+    let dataFinal = "12/02/2024";
     let registrosProcessados = 0;
     let registrosTotal = 0;
 
@@ -26,7 +26,8 @@ const BsellerOrdersFeed = async () => {
                 pedido_integrado_intelipost: false,
                 app_pagamento_aprovado: false,
                 app_data_aprovacao_pagamento: '',
-                origem_pedido: order.ID_ORIGEM
+                origem_pedido: order.ID_ORIGEM,
+                descricao_status: ''
             });
         }
         }

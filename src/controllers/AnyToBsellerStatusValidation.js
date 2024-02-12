@@ -16,6 +16,7 @@ module.exports = {
         id_anymarket,
         status_anymarket,
         status_bseller,
+        observacoes
     } = req.body;
 
     try {
@@ -23,6 +24,7 @@ module.exports = {
         id_anymarket,
         status_anymarket,
         status_bseller,
+        observacoes
       });
   
       return res.json(ordersStatusValidationStore);

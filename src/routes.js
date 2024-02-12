@@ -23,6 +23,14 @@ routes.get('/', (req, res) => {
 
 // ############## INÍCIO DAS ROTAS DE TESTE #####################
 
+
+routes.get('/quem-somos', (req, res) => {
+  res.sendFile(__dirname + '/views/quem-somos.htm');
+});
+
+
+// ############## FIM DAS ROTAS DE TESTE #####################
+
 // rota atualizar a tabela bseller_orders com as notas fiscais
 routes.get('/api/bseller/orders/feed/update', async (req, res) => {
   try {
@@ -32,8 +40,6 @@ routes.get('/api/bseller/orders/feed/update', async (req, res) => {
     res.status(500).json({ error: 'Erro ao processar a requisição BsellerOrdersFeedInvoiceUpdate no routes.' });
   }
 });;
-
-// ############## FIM DAS ROTAS DE TESTE #####################
 
 // rotas para puxar os dados da tabela bsellertointelipost_status_validations e para enviar um item para a tabela. 
 routes.get('/api/intelipost/checkstatus/index', BsellerToIntelipostStatusValidation.index);
@@ -101,8 +107,10 @@ routes.get('/api/bseller/checkintegration', async (req, res) => {
 
 // rota para alimentar a tabeka Anymarkets
 routes.get('/api/anymarket/orders/feed', async (req, res) => {
+  let dataInicial = req.query.dataInicial;
+  let dataFinal = req.query.dataFinal;
   try {
-    const result = await AnymarketOrdersFeed.AnymarketOrdersFeed();
+    const result = await AnymarketOrdersFeed.AnymarketOrdersFeed( dataInicial, dataFinal);
     res.json(result);
   } catch (error) {
     res.status(500).json({ error: 'Erro ao processar a requisição.' });
@@ -127,3 +135,4 @@ routes.get('/api/anymarket/orders', AnymarketOrderController.index);
 routes.post('/api/anymarket/orders', AnymarketOrderController.store);
 
 module.exports = routes;
+

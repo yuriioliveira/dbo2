@@ -8,8 +8,8 @@ const BsellerOrder = require('../models/BsellerOrder');
 async function BsellerOrdersFeedInvoiceUpdate() {
     let registroAtualizados = 0;
     let registrosTotal = 0;
-    let dataInicial = "20/01/2024";
-    let dataFinal = "05/02/2024";
+    let dataInicial = "09/02/2024";
+    let dataFinal = "12/02/2024";
 
     try {
         const conteudo = await BsellerUtils.getInvoiceFromBseller(dataInicial, dataFinal);

@@ -1,5 +1,3 @@
-// ZERAR O BANCO E TESTAR NOVAMENTE FORCANDO ERRO DE INTEGRAÇÃO
-
 const AnytobsellerIntegrationError = require('../models/AnytobsellerIntegrationError');
 const AnymarketUtils = require('../utils/AnymarketUtils');
 const BsellerUtils = require('../utils/BsellerUtils');

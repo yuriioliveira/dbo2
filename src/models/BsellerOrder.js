@@ -15,6 +15,7 @@ class BsellerOrder extends Model {
             app_pagamento_aprovado: DataTypes.BOOLEAN,
             app_data_aprovacao_pagamento: DataTypes.STRING,
             origem_pedido: DataTypes.STRING,
+            descricao_status: DataTypes.STRING
         }, {
             sequelize
           })

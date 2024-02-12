@@ -4,8 +4,6 @@ const AnyToBsellerStatusValidation = require('../models/AnytobsellerStatusValida
 const { Sequelize } = require('sequelize');
 const AnyToBsellerStatusEquivalenceUtils = require('../utils/AnyToBsellerStatusEquivalenceUtils');
 
-//Criar um botão para atualizar o pedido da anymarket no banco e recomparar os dados. 
-
 async function AnyToBsellerStatusValidationFeed() {
   let quantidadeStatusOk = 0;
   let quantidadeStatuserro = 0;
@@ -47,7 +45,8 @@ async function AnyToBsellerStatusValidationFeed() {
           ordersToCreate.push({
             id_anymarket,
             status_anymarket,
-            status_bseller
+            status_bseller,
+            observacoes
           });
           quantidadeStatuserro++;
         }

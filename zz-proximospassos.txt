@@ -1,5 +1,6 @@
 - Tratar retorno 429 na Anymarket
 Repensar isso: - Implementar uma tabela para pedidos do Bseller ( Shopee ) que não estão na intelipost para que possamos consumir e fazer o cadastro dos pedidos. 
+Validar NF entre Bseller, Any e intelipost
 
 
 Tabelas para os problemas

@@ -1,12 +1,15 @@
 const AnymarketUtils = require('../utils/AnymarketUtils');
 const AnymarketOrder = require('../models/AnymarketOrder');
 
-const AnymarketOrdersFeed = async () => {
+// fazer com que exiba a quantidade de registros no início e outro item que vai mostrando quantos itens faltam serem processados a cada iteração
+
+const AnymarketOrdersFeed = async (dataInicial, dataFinal) => {
     let numeroPaginaAtual = 1;
     let offsetAtual = 0;
     let quantidadePaginas = 999;
-    let dataInicial = "2024-01-20";
-    let dataFinal = "2024-02-05";
+    // let dataInicial = "2024-02-01";
+    // let dataInicial = "2024-01-19";
+    // let dataFinal = "2024-02-06";
 
     let registrosProcessados = 0;
     let registrosTotal = 0;
@@ -14,7 +17,7 @@ const AnymarketOrdersFeed = async () => {
     while (numeroPaginaAtual <= quantidadePaginas) {
         try {
             const conteudo = await AnymarketUtils.getOrdersFromAnymarket(dataInicial, dataFinal, offsetAtual);
-
+            console.log("pagina atual: ", numeroPaginaAtual)
             const orders_anymarket = [];
             for (const order of conteudo.content) {
                 orders_anymarket.push({
@@ -64,7 +67,9 @@ const AnymarketOrdersFeed = async () => {
     
         return {
             registrosProcessados,
-            registrosTotal
+            registrosTotal,
+            dataInicial,
+            dataFinal
         };
     }
     

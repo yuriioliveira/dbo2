@@ -1,13 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Homepage</title>
-</head>
+<html>
 <body>
 
-  <div class="container mt-5">
-    <h2>Homepage</h2>
+<h2>Atualizar Datas</h2>
+
+<form id="dateForm">
+  <label for="startDate">Data Inicial:</label><br>
+  <input type="date" id="dataInicial" name="dataInicial"><br>
+  <label for="endDate">Data Final:</label><br>
+  <input type="date" id="dataFinal" name="dataFinal"><br>
+  <input type="button" value="Atualizar" onclick="sendDates()">
+</form>
+
+<p id="loadingMessage"></p>
+<p id="responseData"></p>
+
+<script>
+
+function sendDates() {
+  var dataInicial = document.getElementById('dataInicial').value;
+  var dataFinal = document.getElementById('dataFinal').value;
+
+  document.getElementById('loadingMessage').textContent = 'Carregando...';
+  
+  fetch(`/api/anymarket/orders/feed?dataInicial=${dataInicial}&dataFinal=${dataFinal}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+  .then((response) => response.json())
+  .then((data) => {
+    document.getElementById('loadingMessage').textContent = '';
+    document.getElementById('responseData').textContent = JSON.stringify(data);
+  })
+  .catch((error) => {
+    document.getElementById('loadingMessage').textContent = '';
+    console.error('Error:', error);
+  });
+}
+
+</script>
+
 </body>
 </html>
