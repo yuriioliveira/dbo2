@@ -7,10 +7,6 @@ const AnymarketOrdersFeed = async (dataInicial, dataFinal) => {
     let numeroPaginaAtual = 1;
     let offsetAtual = 0;
     let quantidadePaginas = 999;
-    // let dataInicial = "2024-02-01";
-    // let dataInicial = "2024-01-19";
-    // let dataFinal = "2024-02-06";
-
     let registrosProcessados = 0;
     let registrosTotal = 0;
 

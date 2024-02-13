@@ -43,7 +43,6 @@ async function BsellerToIntelipostStatusValidationFeed() {
 
         for (const order of getOrdersToCheckStatus) {
             const { id_anymarket, id_entrega, status_intelipost, status_bseller, status_anymarket } = order;
-
             const validateStatusEquivalence = async (statusToCheckIntelipost, statusToCheckBseller) => {
                 const validateReturn = await BsellerToIntelipostStatusEquivalenceUtils.BsellerToIntelipostCheckStatusEquivalence(statusToCheckIntelipost, statusToCheckBseller);
                 if (validateReturn === true) {

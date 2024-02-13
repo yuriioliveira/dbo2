@@ -14,6 +14,7 @@ module.exports = {
         unique: true,
         allowNull: false,
       },
+      id_entrega: Sequelize.BIGINT,
       status_anymarket: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -22,6 +23,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      chave_nf: Sequelize.STRING,
+      numero_nf: Sequelize.STRING,
+      serie_nf: Sequelize.STRING,
+      observacoes: Sequelize.STRING,
       created_at: {
         type: Sequelize.DATE,
         allowNull: false,

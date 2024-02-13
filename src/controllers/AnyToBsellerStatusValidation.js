@@ -14,16 +14,24 @@ module.exports = {
   async store(req, res) {
     const { 
         id_anymarket,
+        id_entrega,
         status_anymarket,
         status_bseller,
+        chave_nf,
+        numero_nf,
+        serie_nf,
         observacoes
     } = req.body;
 
     try {
       const ordersStatusValidationStore = await AnyToBsellerStatusValidation.create({ 
         id_anymarket,
+        id_entrega,
         status_anymarket,
         status_bseller,
+        chave_nf,
+        numero_nf,
+        serie_nf,
         observacoes
       });
   
