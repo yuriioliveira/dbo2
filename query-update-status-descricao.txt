@@ -1,3 +1,9 @@
+SELECT a.id_anymarket, a.status_anymarket, a.data_pedido, a.chave_nf, b.id_entrega, b.status_bseller, b.chave_nf
+FROM anymarket_orders a
+JOIN bseller_orders b ON b.id_anymarket = a.id_anymarket
+WHERE a.chave_nf = '' AND a.fulfillment = 'false' AND a.status_anymarket <> 'CANCELED'
+
+
 UPDATE bseller_orders SET descricao_status = 'Devolucao' WHERE status_bseller = 'I63';
 UPDATE bseller_orders SET descricao_status = 'Em Rota De Entrega' WHERE status_bseller = 'I59';
 UPDATE bseller_orders SET descricao_status = 'Recebimento De Insucesso De Entrega' WHERE status_bseller = 'RIE';
