@@ -1,0 +1,52 @@
+id_entrega        "PEDC_ID_PEDIDO": 90723321,                           Anymarket:Vazio
+id_anymarket_core        "PEDC_PED_CLIENTE": "151518347",               Anymarket:Ok
+id_marketplace        "PED_EXTERNO": "LU-1310770711902509",             Anymarket:Ok
+valor_total        "PEPA_VL_MEIO": 77.29,                               Anymarket:Ok
+valor_frete        "PEDC_VL_FRETE_CLIENTE": 17.4,                       Anymarket:ok  
+data_pedido        "PEDC_DT_EMISSAO": "09/02/2024",                     Anymarket:ok  
+forma_pagamento        "MEIP_NOME": "PIX (boleto)",                     Anymarket:ok  
+data_aprovacao_pagamento        "PEDC_DT_APROVADO": "09/02/2024",       Anymarket:Ok
+status        "SREF_ID_PONTO_ULT": "ENT",                               Anymarket:ok  
+status_data        "SREF_DT_PREV_ULT": "21/02/2024 12:09",              Anymarket:Vazio
+nome_marketplace        "NOME_CANAL": "Magazine Luiza",                 Anymarket:Ok
+transportadora        "CLIE_APELIDO": "DIÁLOGO",                        Anymarket:Vazio
+origem_pedido        "ID_ORIGEM": "Site",                               Anymarket:Vazio
+fulfillment                                                             Anymarket:ok
+custo_frete_fulfillment                                                 Anymarket:ok       
+
+// CLIENTES
+nome_cliente        "CLIE_NOME": "Roselany Lima",                       Anymarket:Ok
+cpf_cnpj        "PEDC_ID_CLIENTE": 814861385,                           Anymarket:Ok
+uf        "ESTADO": "CE",                                               Anymarket:Ok
+cidade  "NOME_MUNICIPIO": "Fortaleza",                                  Anymarket:Ok
+bairro        "BAIRRO": "MARAPONGA",                                    Anymarket:Ok
+
+// Nota Fiscal
+nfe_chave       "CHAVE_ACESSO": "35240201773518000988550160000816071101311191", // vem do 280   Anymarket:ok  
+nfe_numero      "NOTA": 81607,                                                  // vem do 280   Anymarket:ok  
+nfe_serie       "SERIE": "16",                                                  // vem do 280   Anymarket:ok  
+nfe_data        "DT_SIT": "10/02/2024",                                         // vem do 280   Anymarket:ok  
+
+// produto
+produto >> nome_produto        "NOME_ITEM": "Lixeira aço inox de",      Anymarket:Ok
+produto >>  sku_kit       "PEDD_ID_ITEM_PAI": 43601,                    Anymarket:Vazio
+produto >> sku_item        "COD_TERCEIRO": "30000",                     Anymarket:Ok
+produto >> id_produto        "PEDD_ID_ITEM": 2465953,                   Anymarket:Vazio
+produto >> quantidade        "QT_PED": 1,                               Anymarket:Ok
+produto >> valor_mercadoria           "VL_MERCADORIA": 42.59,           Anymarket:Vazio
+produto >> valor_total     "VL_TOTAL": 49.47,                           Anymarket:Ok
+produto >> desconto_incondicional        "VL_DESC_INC": 0,              Anymarket:Vazio
+produto >> desconto_condicional        "VL_DESC_COND": 4.26,            Anymarket:Vazio
+produto >> quantidade_faturado        "QT_FAT": 1,                      Anymarket:Vazio
+produto >> Departamento // vem do 230
+produto >> SETOR        // vem do 230
+produto >> Familia      // vem do 230
+produto >> subfamilia   // vem do 230
+
+// Outros
+id_filial        "PEDC_ID_FILIAL": 1,                                   Anymarket:Vazio
+despesas_financeiras        "PEDC_VL_DESP_FINANC": 0,                   Anymarket:Vazio
+unidade_negocio        "PEDC_ID_UNINEG": 1,                             Anymarket:Vazio
+usuário_inclusao        "USUARIO_INC": "DEVI_ANYMARKET",                Anymarket:Vazio
+id_canal        "CANAL": "MALU",                                        Anymarket:Vazio
+

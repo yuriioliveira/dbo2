@@ -1,6 +1,7 @@
 const axios = require('axios');
 const IntelipostOrder = require('../models/IntelipostOrder');
 
+
 const intelipostFindOne = async (findParametersIntelipost) => {
     try {
         const returnIntelipostFindOne = await IntelipostOrder.findOne({
@@ -54,10 +55,15 @@ const intelipostFindOne = async (findParametersIntelipost) => {
       return response.data;
       
     } catch (error) {
+      console.log(idEntrega)
+        if (error.response && error.response.status === 400) {
+          return { pedido: 'não encontrado'};
+          };
+        }
       console.error('Erro em InteliposttUtils.js, função: intelipostGetOrdersData: ', error.message);
         throw error;
     }
-  }
+  
 
   
   module.exports = {

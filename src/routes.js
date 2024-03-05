@@ -5,6 +5,8 @@ const AnyToBsellerIntegrationErrorController = require('./controllers/AnyToBsell
 const AnyToBsellerStatusValidation = require('./controllers/AnyToBsellerStatusValidation');
 const IntelipostOrderController = require('./controllers/IntelipostOrderController');
 const BsellerToIntelipostStatusValidation = require('./controllers/BsellerToIntelipostStatusValidation');
+const IntelipostErrorsController = require('./controllers/IntelipostErrorsController');
+const GeralOrderController = require('./controllers/GeralOrderController');
 
 const AnymarketOrdersFeed = require('./services/AnymarketOrdersFeed');
 const BsellerOrdersFeed = require('./services/BsellerOrdersFeed');
@@ -22,7 +24,13 @@ routes.get('/', (req, res) => {
 });
 
 // ############## INÍCIO DAS ROTAS DE TESTE #####################
+routes.get('/api/geral', GeralOrderController.index);
+routes.post('/api/geral', GeralOrderController.store);
 
+
+
+routes.get('/api/intelipost/errors', IntelipostErrorsController.index);
+routes.post('/api/intelipost/errors', IntelipostErrorsController.store);
 
 routes.get('/quem-somos', (req, res) => {
   res.sendFile(__dirname + '/views/quem-somos.htm');
