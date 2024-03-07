@@ -99,7 +99,7 @@ const getInvoiceFromBseller = async (dataInicial, dataFinal) => {
       return response.data;
       
   } catch (error) {
-      console.error('Erro em BsellerUtils.js, função: getOrdersFrom280Bseller: ', error.message);
+      console.error('ERRO NO 880!  Erro em BsellerUtils.js, função: getOrdersFrom880Bseller: ', error.message);
       throw error;
   }
 };

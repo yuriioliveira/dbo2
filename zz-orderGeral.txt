@@ -38,10 +38,10 @@ produto >> valor_total     "VL_TOTAL": 49.47,                           Anymarke
 produto >> desconto_incondicional        "VL_DESC_INC": 0,              Anymarket:Vazio
 produto >> desconto_condicional        "VL_DESC_COND": 4.26,            Anymarket:Vazio
 produto >> quantidade_faturado        "QT_FAT": 1,                      Anymarket:Vazio
-produto >> Departamento // vem do 230
-produto >> SETOR        // vem do 230
-produto >> Familia      // vem do 230
-produto >> subfamilia   // vem do 230
+produto >> Departamento // vem do 230 "DEPA_NOME"
+produto >> SETOR        // vem do 230 "SETO_NOME"
+produto >> Familia      // vem do 230 "FAMI_NOME"
+produto >> subfamilia   // vem do 230 "SUFA_NOME"
 
 // Outros
 id_filial        "PEDC_ID_FILIAL": 1,                                   Anymarket:Vazio

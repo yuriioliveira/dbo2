@@ -33,7 +33,7 @@ routes.get('/api/geral/feed', async (req, res) => {
     const result = await GeralOrdersFeed.GeralOrdersFeed(dataInicial, dataFinal);
     res.json(result);
   } catch (error) {
-    res.status(500).json({ error: 'Erro ao processar a requisição BsellerOrdersFeedInvoiceUpdate no routes.' });
+    res.status(500).json({ error: 'Erro ao processar a requisição GeralOrdersFeed no routes.' });
   }
 });;
 
