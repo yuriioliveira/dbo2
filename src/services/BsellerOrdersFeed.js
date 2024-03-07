@@ -1,9 +1,9 @@
 const BsellerUtils = require('../utils/BsellerUtils');
 const BsellerOrder = require('../models/BsellerOrder');
 
-const BsellerOrdersFeed = async () => {
-  let dataInicial = '10/02/2024';
-  let dataFinal = '04/03/2024';
+const BsellerOrdersFeed = async (dataInicial, dataFinal) => {
+  // let dataInicial = '01/02/2024';
+  // let dataFinal = '09/02/2024';
   let registrosProcessados = 0;
   let registrosTotal = 0;
 
@@ -51,6 +51,8 @@ const BsellerOrdersFeed = async () => {
   return {
     registrosProcessados,
     registrosTotal,
+    dataInicial,
+    dataFinal,
   };
 };
 

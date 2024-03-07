@@ -30,6 +30,36 @@ const getOrdersFrom280Bseller = async (dataInicial, dataFinal) => {
     }
 };
 
+const getDataFrom230Bseller = async () => {
+
+  const requestData = {
+      parametros: {
+        P_DT_INCL_INI: null,
+        P_DT_INCL_FIM: null,
+        P_ID_CIA: "11422",
+        P_ID_CONI: null,
+        P_ID_DEPART: null,
+        P_ID_FORNEC: null
+      }
+    };
+
+  try {
+      const response = await axios.post('https://api-dw.bseller.com.br/webquery/execute/SIGEQ230', requestData, {
+          headers: {
+            'X-Auth-Token': process.env.TOKEN_BSELLER,
+            'Content-Type': 'application/json'
+          },
+      });
+
+      return response.data;
+      
+  } catch (error) {
+      console.error('Erro em BsellerUtils.js, função: getDataFrom230Bseller: ', error.message);
+      throw error;
+  }
+};
+
+
 const bsellerFindOne = async (findParametersBseller) => {
   try {
       const returnBsellerFindOne = await BsellerOrder.findOne({
@@ -85,6 +115,7 @@ const bsellerAjusteData = async (dataBseller, horarioBseller) => {
 
 module.exports = {
     getOrdersFrom280Bseller,
+    getDataFrom230Bseller,
     bsellerFindOne,
     getInvoiceFromBseller,
     bsellerAjusteData

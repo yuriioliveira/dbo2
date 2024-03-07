@@ -29,7 +29,7 @@ nfe_data        "DT_SIT": "10/02/2024",                                         
 
 // produto
 produto >> nome_produto        "NOME_ITEM": "Lixeira aço inox de",      Anymarket:Ok
-produto >>  sku_kit       "PEDD_ID_ITEM_PAI": 43601,                    Anymarket:Vazio
+produto >> sku_kit       "PEDD_ID_ITEM_PAI": 43601,                    Anymarket:Vazio
 produto >> sku_item        "COD_TERCEIRO": "30000",                     Anymarket:Ok
 produto >> id_produto        "PEDD_ID_ITEM": 2465953,                   Anymarket:Vazio
 produto >> quantidade        "QT_PED": 1,                               Anymarket:Ok

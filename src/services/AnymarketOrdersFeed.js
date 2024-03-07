@@ -12,8 +12,9 @@ const AnymarketOrdersFeed = async (dataInicial, dataFinal) => {
 
     while (numeroPaginaAtual <= quantidadePaginas) {
         try {
-            const conteudo = await AnymarketUtils.getOrdersFromAnymarket(dataInicial, dataFinal, offsetAtual);
+            const conteudo = await AnymarketUtils.getOrdersFromAnymarket(dataInicial, dataFinal, offsetAtual, registrosTotal);
             console.log("pagina atual: ", numeroPaginaAtual)
+            console.log(registrosTotal)
             const orders_anymarket = [];
             for (const order of conteudo.content) {
                 orders_anymarket.push({

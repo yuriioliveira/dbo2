@@ -12,7 +12,6 @@ module.exports = {
       id_entrega: {
         type: Sequelize.BIGINT,
         unique: true,
-        allowNull: false,
       },
       id_anymarket_core: {
         type: Sequelize.BIGINT,

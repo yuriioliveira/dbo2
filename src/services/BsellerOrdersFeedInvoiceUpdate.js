@@ -5,11 +5,11 @@ const BsellerOrder = require('../models/BsellerOrder');
 // poosso pensar numa logica para identificar pedidos sem NF e buscar através daqui pela data do pedido a atualizaçãso da NF. 
 // só chamar o update para pedidos sem chave_nf com status maior ou igual ETR
 
-async function BsellerOrdersFeedInvoiceUpdate() {
+async function BsellerOrdersFeedInvoiceUpdate(dataInicial,dataFinal) {
     let registroAtualizados = 0;
     let registrosTotal = 0;
-    let dataInicial = "26/02/2024";
-    let dataFinal = "24/03/2024";
+    // let dataInicial = "15/02/2024";
+    // let dataFinal = "16/02/2024";
 
     try {
         const conteudo = await BsellerUtils.getInvoiceFromBseller(dataInicial, dataFinal);
@@ -53,7 +53,9 @@ async function BsellerOrdersFeedInvoiceUpdate() {
 
     return {
         registrosTotal,
-        registroAtualizados
+        registroAtualizados,
+        dataInicial,
+        dataFinal
     };
 }
 

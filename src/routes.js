@@ -16,6 +16,7 @@ const AnyToBsellerIntegrationErrorFeed = require('./services/AnyToBsellerIntegra
 const AnyToBsellerStatusValidationFeed = require('./services/AnyToBsellerStatusValidationFeed');
 const BsellerToIntelipostStatusValidationFeed = require('./services/BsellerToIntelipostStatusValidationFeed');
 const BsellerOrdersFeedInvoiceUpdate = require('./services/BsellerOrdersFeedInvoiceUpdate');
+const GeralOrdersFeed = require('./services/GeralOrdersFeed');
 
 const routes = express.Router();
 
@@ -24,6 +25,24 @@ routes.get('/', (req, res) => {
 });
 
 // ############## INÍCIO DAS ROTAS DE TESTE #####################
+
+routes.get('/api/geral/feed', async (req, res) => {
+  let dataInicial = req.query.dataInicial;
+  let dataFinal = req.query.dataFinal;
+  try {
+    const result = await GeralOrdersFeed.GeralOrdersFeed(dataInicial, dataFinal);
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: 'Erro ao processar a requisição BsellerOrdersFeedInvoiceUpdate no routes.' });
+  }
+});;
+
+
+
+
+
+
+
 routes.get('/api/geral', GeralOrderController.index);
 routes.post('/api/geral', GeralOrderController.store);
 
@@ -41,8 +60,10 @@ routes.get('/quem-somos', (req, res) => {
 
 // rota atualizar a tabela bseller_orders com as notas fiscais
 routes.get('/api/bseller/orders/feed/update', async (req, res) => {
+  let dataInicial = req.query.dataInicial;
+  let dataFinal = req.query.dataFinal;
   try {
-    const result = await BsellerOrdersFeedInvoiceUpdate.BsellerOrdersFeedInvoiceUpdate();
+    const result = await BsellerOrdersFeedInvoiceUpdate.BsellerOrdersFeedInvoiceUpdate(dataInicial, dataFinal);
     res.json(result);
   } catch (error) {
     res.status(500).json({ error: 'Erro ao processar a requisição BsellerOrdersFeedInvoiceUpdate no routes.' });
@@ -127,8 +148,10 @@ routes.get('/api/anymarket/orders/feed', async (req, res) => {
 
 // rota para alimentar a tabela bsellers
 routes.get('/api/bseller/orders/feed', async (req, res) => {
+  let dataInicial = req.query.dataInicial;
+  let dataFinal = req.query.dataFinal;
   try {
-    const result = await BsellerOrdersFeed.BsellerOrdersFeed();
+    const result = await BsellerOrdersFeed.BsellerOrdersFeed(dataInicial, dataFinal);
     res.json(result);
   } catch (error) {
     res.status(500).json({ error: 'Erro ao processar a requisição AQUI 2.' });
