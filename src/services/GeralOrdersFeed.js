@@ -1,13 +1,13 @@
 // dados do 280 - Obter dados OK
 //dados do 230 - Obter dados OK
 // dados do 880 - Obter dados OK
-// dados Anymarket, só fulfillment. - Obter dados OK
+// dados Anymarket, só fulfillment. - Obter dados OK - Ok
 const BsellerUtils = require("../utils/BsellerUtils");
 const AnymarketUtils = require('../utils/AnymarketUtils');
 
 const GeralOrdersFeed = async (dataInicial, dataFinal) => {
-    console.log(dataInicial)
-    console.log(dataFinal)
+  console.log(dataInicial)
+  console.log(dataFinal)
   let numeroPaginaAtual = 1;
   let offsetAtual = 0;
   let quantidadePaginas = 999;
@@ -17,6 +17,8 @@ const GeralOrdersFeed = async (dataInicial, dataFinal) => {
 
   while (numeroPaginaAtual <= quantidadePaginas) {
     try {
+      console.log(numeroPaginaAtual)
+      console.log(quantidadePaginas)
         const conteudoAnymarket = await AnymarketUtils.getOrdersFromAnymarket(dataInicial, dataFinal, offsetAtual, registrosTotal);
         for (const orderAny of conteudoAnymarket.content) {
             if (orderAny.fulfillment === true) {
@@ -71,10 +73,9 @@ const GeralOrdersFeed = async (dataInicial, dataFinal) => {
             }
         }
         console.log("chegouAqui galera")
-        registrosProcessados += result.length;
-        registrosTotal = conteudo.page.totalElements
-
-        quantidadePaginas = conteudo.page.totalPages;
+        
+        registrosTotal = conteudoAnymarket.page.totalElements
+        quantidadePaginas = conteudoAnymarket.page.totalPages;
         numeroPaginaAtual++;
         offsetAtual += 100;
       } catch (error) {
@@ -155,11 +156,37 @@ const GeralOrdersFeed = async (dataInicial, dataFinal) => {
                 usuário_inclusao: order280Bseller.USUARIO_INC,
                 id_canal: order280Bseller.CANAL,
             });
+          } else {
+            // incluir produto Bseller
+            console.log('Pedido com dois produtos: ' + order280Bseller.PEDC_ID_PEDIDO)
+            let addProduto = {
+              "nome_produto": order280Bseller.NOME_ITEM,
+              "sku_kit": order280Bseller.PEDD_ID_ITEM_PAI,
+              "sku_item": order280Bseller.COD_TERCEIRO,
+              "id_produto": order280Bseller.PEDD_ID_ITEM,
+              "quantidade": order280Bseller.QT_PED,
+              "valor_mercadoria": order280Bseller.VL_MERCADORIA,
+              "valor_total": order280Bseller.VL_TOTAL,
+              "desconto_incondicional": order280Bseller.VL_DESC_INC,
+              "desconto_condicional": order280Bseller.VL_DESC_COND,
+              "quantidade_faturado": order280Bseller.QT_FAT,
+              "Departamento": null,
+              "SETOR": null,
+              "Familia": null,
+              "subfamilia": null,
+            }
+            existingOrder.produtos.push(addProduto)
           }
       }
   } catch (error) {
-    console.error('Erro na requisição: AQUI', error.message);
+    console.error('Erro na requisição do 280 AQUI: ', error.message);
   }
+
+
+
+
+
+//registrosProcessados += result.length;
 
 return ordersTodb;
 
