@@ -77,7 +77,7 @@ const GeralOrdersFeed = async (dataInicial, dataFinal) => {
       })
     }
     console.log("Terminou de obter as NF's!")
-    
+
   } catch (error) {
     console.error('Erro na requisição das NFs em GeralOrdersFeed: ', error.message);
   }
@@ -156,19 +156,17 @@ const GeralOrdersFeed = async (dataInicial, dataFinal) => {
 
   // Obtendo pedidos do Bseller através do 280. 
   try {
-        const conteudo280Bseller = await BsellerUtils.getOrdersFrom280Bseller(
+    const conteudo280Bseller = await BsellerUtils.getOrdersFrom280Bseller(
       dataInicialBseller,
       dataFinalBseller
     );
 
     for (const order280Bseller of conteudo280Bseller) {
-      const existingOrder = ordersTodb.find(
-        (o) => o.id_entrega === order280Bseller.PEDC_ID_PEDIDO
-      );
-      if (!existingOrder) {
+      if (order280Bseller.origem_pedido === "Troca") {
+        console.log('pedido como troca')
         ordersTodb.push({
           id_entrega: order280Bseller.PEDC_ID_PEDIDO,
-          id_anymarket_core: order280Bseller.PEDC_PED_CLIENTE,
+          id_anymarket_core: '8889' + order280Bseller.PEDC_PED_CLIENTE,
           id_marketplace: order280Bseller.PED_EXTERNO,
           valor_total: order280Bseller.PEPA_VL_MEIO,
           valor_frete: order280Bseller.PEDC_VL_FRETE_CLIENTE,
@@ -189,7 +187,7 @@ const GeralOrdersFeed = async (dataInicial, dataFinal) => {
           cliente_bairro: order280Bseller.BAIRRO ? order280Bseller.BAIRRO : 'Sem bairro',
           ...(() => {
             const nfOrder = nfOrdersBseller.find(nf => nf.id_entrega === order280Bseller.PEDC_ID_PEDIDO);
-            return {  
+            return {
               nfe_chave: nfOrder ? nfOrder.nfe_chave : 'Sem NF',
               nfe_numero: nfOrder ? nfOrder.nfe_numero : 'Sem NF',
               nfe_serie: nfOrder ? nfOrder.nfe_serie : 'Sem NF',
@@ -226,30 +224,97 @@ const GeralOrdersFeed = async (dataInicial, dataFinal) => {
           usuário_inclusao: order280Bseller.USUARIO_INC,
           id_canal: order280Bseller.CANAL,
         });
+
       } else {
-        // incluir produto Bseller
-        let addProduto = {
-          "nome_produto": order280Bseller.NOME_ITEM,
-          "sku_kit": order280Bseller.PEDD_ID_ITEM_PAI,
-          "sku_item": order280Bseller.COD_TERCEIRO,
-          "id_produto": order280Bseller.PEDD_ID_ITEM,
-          "quantidade": order280Bseller.QT_PED,
-          "valor_mercadoria": order280Bseller.VL_MERCADORIA,
-          "valor_total": order280Bseller.VL_TOTAL,
-          "desconto_incondicional": order280Bseller.VL_DESC_INC,
-          "desconto_condicional": order280Bseller.VL_DESC_COND,
-          "quantidade_faturado": order280Bseller.QT_FAT,
-          ...(() => {
-            const produtoBseller = infoProdutosBseller.find(produto => produto.sku === order280Bseller.COD_TERCEIRO);
-            return {
-              "departamento": produtoBseller ? produtoBseller.departamento : 'nao encontrado',
-              "setor": produtoBseller ? produtoBseller.setor : 'nao encontrado',
-              "familia": produtoBseller ? produtoBseller.familia : 'nao encontrado',
-              "subfamilia": produtoBseller ? produtoBseller.subfamilia : 'nao encontrado',
-            }
-          })()
+        const existingOrder = ordersTodb.find(
+          (o) => o.id_entrega === order280Bseller.PEDC_ID_PEDIDO
+        );
+        if (!existingOrder) {
+          ordersTodb.push({
+            id_entrega: order280Bseller.PEDC_ID_PEDIDO,
+            id_anymarket_core: order280Bseller.PEDC_PED_CLIENTE,
+            id_marketplace: order280Bseller.PED_EXTERNO,
+            valor_total: order280Bseller.PEPA_VL_MEIO,
+            valor_frete: order280Bseller.PEDC_VL_FRETE_CLIENTE,
+            data_pedido: order280Bseller.PEDC_DT_EMISSAO,
+            forma_pagamento: order280Bseller.MEIP_NOME,
+            data_aprovacao_pagamento: order280Bseller.PEDC_DT_APROVADO,
+            status: order280Bseller.SREF_ID_PONTO_ULT,
+            status_data: order280Bseller.SREF_DT_PREV_ULT,
+            nome_marketplace: order280Bseller.NOME_CANAL,
+            transportadora: order280Bseller.CLIE_APELIDO,
+            origem_pedido: order280Bseller.ID_ORIGEM,
+            fulfillment: 'false',
+            custo_frete_fulfillment: null,
+            cliente_nome: order280Bseller.CLIE_NOME,
+            cliente_cpfcnpj: order280Bseller.PEDC_ID_CLIENTE,
+            cliente_uf: order280Bseller.ESTADO,
+            cliente_cidade: order280Bseller.NOME_MUNICIPIO,
+            cliente_bairro: order280Bseller.BAIRRO ? order280Bseller.BAIRRO : 'Sem bairro',
+            ...(() => {
+              const nfOrder = nfOrdersBseller.find(nf => nf.id_entrega === order280Bseller.PEDC_ID_PEDIDO);
+              return {
+                nfe_chave: nfOrder ? nfOrder.nfe_chave : 'Sem NF',
+                nfe_numero: nfOrder ? nfOrder.nfe_numero : 'Sem NF',
+                nfe_serie: nfOrder ? nfOrder.nfe_serie : 'Sem NF',
+                nfe_data: nfOrder ? nfOrder.nfe_data : 'Sem NF',
+              }
+            })(),
+
+            produtos: [
+              {
+                "nome_produto": order280Bseller.NOME_ITEM,
+                "sku_kit": order280Bseller.PEDD_ID_ITEM_PAI,
+                "sku_item": order280Bseller.COD_TERCEIRO,
+                "id_produto": order280Bseller.PEDD_ID_ITEM,
+                "quantidade": order280Bseller.QT_PED,
+                "valor_mercadoria": order280Bseller.VL_MERCADORIA,
+                "valor_total": order280Bseller.VL_TOTAL,
+                "desconto_incondicional": order280Bseller.VL_DESC_INC,
+                "desconto_condicional": order280Bseller.VL_DESC_COND,
+                "quantidade_faturado": order280Bseller.QT_FAT,
+                ...(() => {
+                  const produtoBseller = infoProdutosBseller.find(produto => produto.sku === order280Bseller.COD_TERCEIRO);
+                  return {
+                    "departamento": produtoBseller ? produtoBseller.departamento : 'nao encontrado',
+                    "setor": produtoBseller ? produtoBseller.setor : 'nao encontrado',
+                    "familia": produtoBseller ? produtoBseller.familia : 'nao encontrado',
+                    "subfamilia": produtoBseller ? produtoBseller.subfamilia : 'nao encontrado',
+                  }
+                })()
+              }
+            ],
+            id_filial: order280Bseller.PEDC_ID_FILIAL,
+            despesas_financeiras: order280Bseller.PEDC_VL_DESP_FINANC,
+            unidade_negocio: order280Bseller.PEDC_ID_UNINEG,
+            usuário_inclusao: order280Bseller.USUARIO_INC,
+            id_canal: order280Bseller.CANAL,
+          });
+        } else {
+          // incluir produto Bseller
+          let addProduto = {
+            "nome_produto": order280Bseller.NOME_ITEM,
+            "sku_kit": order280Bseller.PEDD_ID_ITEM_PAI,
+            "sku_item": order280Bseller.COD_TERCEIRO,
+            "id_produto": order280Bseller.PEDD_ID_ITEM,
+            "quantidade": order280Bseller.QT_PED,
+            "valor_mercadoria": order280Bseller.VL_MERCADORIA,
+            "valor_total": order280Bseller.VL_TOTAL,
+            "desconto_incondicional": order280Bseller.VL_DESC_INC,
+            "desconto_condicional": order280Bseller.VL_DESC_COND,
+            "quantidade_faturado": order280Bseller.QT_FAT,
+            ...(() => {
+              const produtoBseller = infoProdutosBseller.find(produto => produto.sku === order280Bseller.COD_TERCEIRO);
+              return {
+                "departamento": produtoBseller ? produtoBseller.departamento : 'nao encontrado',
+                "setor": produtoBseller ? produtoBseller.setor : 'nao encontrado',
+                "familia": produtoBseller ? produtoBseller.familia : 'nao encontrado',
+                "subfamilia": produtoBseller ? produtoBseller.subfamilia : 'nao encontrado',
+              }
+            })()
+          }
+          existingOrder.produtos.push(addProduto)
         }
-        existingOrder.produtos.push(addProduto)
       }
     }
   } catch (error) {
@@ -259,10 +324,10 @@ const GeralOrdersFeed = async (dataInicial, dataFinal) => {
   //Envia os dados para o banco de dados.
   try {
     const sendToDatabase = await GeralOrder.bulkCreate(ordersTodb, {
-      updateOnDuplicate: ['id_anymarket_core','status', 'nfe_chave','nfe_numero','nfe_serie','nfe_data'],
+      updateOnDuplicate: ['id_anymarket_core', 'status', 'nfe_chave', 'nfe_numero', 'nfe_serie', 'nfe_data'],
       conflictAttributes: ['id_anymarket_core']
     })
-    
+
   } catch (error) {
     console.error('Erro ao enviar para o banco em GeralOrdersFeed: ', error.message);
   }
