@@ -7,6 +7,7 @@ const IntelipostOrderController = require('./controllers/IntelipostOrderControll
 const BsellerToIntelipostStatusValidation = require('./controllers/BsellerToIntelipostStatusValidation');
 const IntelipostErrorsController = require('./controllers/IntelipostErrorsController');
 const GeralOrderController = require('./controllers/GeralOrderController');
+const CoreOrderController = require('./controllers/CoreOrderController');
 
 const AnymarketOrdersFeed = require('./services/AnymarketOrdersFeed');
 const BsellerOrdersFeed = require('./services/BsellerOrdersFeed');
@@ -17,6 +18,9 @@ const AnyToBsellerStatusValidationFeed = require('./services/AnyToBsellerStatusV
 const BsellerToIntelipostStatusValidationFeed = require('./services/BsellerToIntelipostStatusValidationFeed');
 const BsellerOrdersFeedInvoiceUpdate = require('./services/BsellerOrdersFeedInvoiceUpdate');
 const GeralOrdersFeed = require('./services/GeralOrdersFeed');
+const BsellerOrdersComplete = require('./services/BsellerOrdersComplete');
+
+const CoreUtils = require('./utils/CoreUtils');
 
 const routes = express.Router();
 
@@ -25,6 +29,27 @@ routes.get('/', (req, res) => {
 });
 
 // ############## INÍCIO DAS ROTAS DE TESTE #####################
+
+routes.get('/api/core/orders', CoreOrderController.index);
+routes.post('/api/core/orders', CoreOrderController.store);
+
+
+
+routes.get('/api/bseller/orderscomplete', async (req, res) => {
+  let dataInicial = req.query.dataInicial;
+  let dataFinal = req.query.dataFinal;
+  try {
+    const result = await BsellerOrdersComplete.BsellerOrdersComplete(dataInicial, dataFinal);
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: 'Erro ao processar a requisição AQUI 2443.' });
+  }
+});
+
+
+
+
+
 
 routes.get('/api/geral/feed', async (req, res) => {
   let dataInicial = req.query.dataInicial;
@@ -38,6 +63,15 @@ routes.get('/api/geral/feed', async (req, res) => {
 });;
 
 
+
+routes.get('/api/teste/core', async (req, res) => {
+  try {
+    const result = await CoreUtils.getOrdersCore();
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: 'Erro aqui no teste.' });
+  }
+});;
 
 
 
