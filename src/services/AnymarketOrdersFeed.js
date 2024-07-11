@@ -3,7 +3,7 @@ const AnymarketOrder = require('../models/AnymarketOrder');
 
 // fazer com que exiba a quantidade de registros no início e outro item que vai mostrando quantos itens faltam serem processados a cada iteração
 
-const AnymarketOrdersFeed = async (dataInicial, dataFinal) => {
+const AnymarketOrdersFeed = async (dataInicial, dataFinal, marketplaceName) => {
     let numeroPaginaAtual = 1;
     let offsetAtual = 0;
     let quantidadePaginas = 999;
@@ -12,7 +12,7 @@ const AnymarketOrdersFeed = async (dataInicial, dataFinal) => {
 
     while (numeroPaginaAtual <= quantidadePaginas) {
         try {
-            const conteudo = await AnymarketUtils.getOrdersFromAnymarket(dataInicial, dataFinal, offsetAtual, registrosTotal);
+            const conteudo = await AnymarketUtils.getOrdersFromAnymarket(dataInicial, dataFinal, marketplaceName, offsetAtual, registrosTotal);
             console.log("pagina atual: ", numeroPaginaAtual)
             console.log(registrosTotal)
             const orders_anymarket = [];

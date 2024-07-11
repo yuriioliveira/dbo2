@@ -10,6 +10,7 @@ const IntelipostErrors = require('../models/IntelipostErrors');
 const BsellertointelipostStatusValidation = require('../models/BsellertointelipostStatusValidation');
 const GeralOrder = require('../models/GeralOrder');
 const CoreOrder = require('../models/CoreOrder');
+const ShopeeOrder = require('../models/ShopeeOrder');
 
 const connection = new Sequelize(dbConfig);
 
@@ -22,5 +23,6 @@ IntelipostErrors.init(connection);
 BsellertointelipostStatusValidation.init(connection);
 GeralOrder.init(connection);
 CoreOrder.init(connection);
+ShopeeOrder.init(connection);
 
 module.exports = connection;

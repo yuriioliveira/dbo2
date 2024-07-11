@@ -1,10 +1,18 @@
 const axios = require('axios');
 const AnymarketOrder = require('../models/AnymarketOrder');
 
-const getOrdersFromAnymarket = async (dataInicial, dataFinal, offsetAtual, registrosTotal) => {
+const getOrdersFromAnymarket = async (dataInicial, dataFinal, marketplaceName, offsetAtual, registrosTotal) => {
     // tratar o erro 429, para dar um timeout e tentar novamente
+    let urlAny;
+
+    if (marketplaceName === 'todos') {
+        urlAny = `http://api.anymarket.com.br/v2/orders?createdAfter=${dataInicial}T00:00:00-03:00&createdBefore=${dataFinal}T23:59:59-03:00&limit=100&offset=${offsetAtual}`;
+    } else { 
+        urlAny = `http://api.anymarket.com.br/v2/orders?createdAfter=${dataInicial}T00:00:00-03:00&createdBefore=${dataFinal}T23:59:59-03:00&limit=100&offset=${offsetAtual}&marketplace=${marketplaceName}`;
+    }
+    
     try {
-        let urlRequest = `http://api.anymarket.com.br/v2/orders?createdAfter=${dataInicial}T00:00:00-03:00&createdBefore=${dataFinal}T23:59:59-03:00&limit=100&offset=${offsetAtual}`;
+        let urlRequest = urlAny;
         console.log('urlRequest: ', urlRequest);
         console.log('offset: ', offsetAtual)
         console.log('registrosTotal: ', registrosTotal)

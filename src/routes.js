@@ -8,6 +8,7 @@ const BsellerToIntelipostStatusValidation = require('./controllers/BsellerToInte
 const IntelipostErrorsController = require('./controllers/IntelipostErrorsController');
 const GeralOrderController = require('./controllers/GeralOrderController');
 const CoreOrderController = require('./controllers/CoreOrderController');
+const ShopeeOrderController = require('./controllers/ShopeeOrderController');
 
 const AnymarketOrdersFeed = require('./services/AnymarketOrdersFeed');
 const BsellerOrdersFeed = require('./services/BsellerOrdersFeed');
@@ -29,6 +30,11 @@ routes.get('/', (req, res) => {
 });
 
 // ############## INÍCIO DAS ROTAS DE TESTE #####################
+
+// rota para alimentar a tabela Shopee Orders
+routes.get('/api/shopee/orders', ShopeeOrderController.index);
+routes.post('/api/shopee/orders', ShopeeOrderController.store);
+
 
 routes.get('/api/core/orders', CoreOrderController.index);
 routes.post('/api/core/orders', CoreOrderController.store);
@@ -168,12 +174,13 @@ routes.get('/api/bseller/checkintegration', async (req, res) => {
   }
 });
 
-// rota para alimentar a tabeka Anymarkets
+// rota para alimentar a tabela Anymarkets
 routes.get('/api/anymarket/orders/feed', async (req, res) => {
   let dataInicial = req.query.dataInicial;
   let dataFinal = req.query.dataFinal;
+  let marketplaceName = req.query.marketplaceName;
   try {
-    const result = await AnymarketOrdersFeed.AnymarketOrdersFeed( dataInicial, dataFinal);
+    const result = await AnymarketOrdersFeed.AnymarketOrdersFeed( dataInicial, dataFinal, marketplaceName);
     res.json(result);
   } catch (error) {
     res.status(500).json({ error: 'Erro ao processar a requisição.' });
