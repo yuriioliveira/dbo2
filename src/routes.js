@@ -20,6 +20,7 @@ const BsellerToIntelipostStatusValidationFeed = require('./services/BsellerToInt
 const BsellerOrdersFeedInvoiceUpdate = require('./services/BsellerOrdersFeedInvoiceUpdate');
 const GeralOrdersFeed = require('./services/GeralOrdersFeed');
 const BsellerOrdersComplete = require('./services/BsellerOrdersComplete');
+const ShopeeOrders = require('./services/ShopeeOrders');
 
 const CoreUtils = require('./utils/CoreUtils');
 
@@ -34,6 +35,20 @@ routes.get('/', (req, res) => {
 // rota para alimentar a tabela Shopee Orders
 routes.get('/api/shopee/orders', ShopeeOrderController.index);
 routes.post('/api/shopee/orders', ShopeeOrderController.store);
+routes.get('/api/shopee/orders/feed', async (req, res) => {
+  let dataInicial = req.query.dataInicial;
+  let dataFinal = req.query.dataFinal;
+  let marketplaceName = req.query.marketplaceName
+  try {
+    const result = await ShopeeOrders.ShopeeOrderFeed(dataInicial, dataFinal, marketplaceName);
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: 'Erro ao processar a requisição AQUI 24435569.' });
+  }
+});
+
+
+
 
 
 routes.get('/api/core/orders', CoreOrderController.index);

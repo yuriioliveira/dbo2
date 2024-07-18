@@ -1,12 +1,20 @@
 const axios = require('axios');
 const BsellerOrder = require('../models/BsellerOrder');
 
+const formatDate = (date) => {
+  const [year, month, day] = date.split('-');
+  return `${day}/${month}/${year}`;
+}
+
 const getOrdersFrom280Bseller = async (dataInicial, dataFinal) => {
+  const formattedDataInicial = formatDate(dataInicial);
+  const formattedDataFinal = formatDate(dataFinal);
+
     const requestData = {
         parametros: {
           P_ID_CIA: '11422',
-          DT_INICIO: dataInicial,
-          DT_FIM: dataFinal,
+          DT_INICIO: formattedDataInicial,
+          DT_FIM: formattedDataFinal,
           P_ID_FILIAL: '1',
           P_ID_ORIGEM: null,
           P_ID_SITUACAO: null,
@@ -76,12 +84,15 @@ const bsellerFindOne = async (findParametersBseller) => {
 }
 
 const getInvoiceFromBseller = async (dataInicial, dataFinal) => {
+  const formattedDataInicial = formatDate(dataInicial);
+  const formattedDataFinal = formatDate(dataFinal);
+
   const requestData = {
     "parametros": {
       "P_ID_CIA": "11422",
       "P_ID_FILIAL": 1,
-      "P_DT_INI": dataInicial,
-      "P_DT_FIM": dataFinal,
+      "P_DT_INI": formattedDataInicial,
+      "P_DT_FIM": formattedDataFinal,
       "P_IN_ES": null,
       "P_IN_SIT": null,
       "P_CFOP": null

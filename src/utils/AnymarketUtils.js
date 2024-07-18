@@ -24,6 +24,7 @@ const getOrdersFromAnymarket = async (dataInicial, dataFinal, marketplaceName, o
         });
 
         return response.data;
+        
     } catch (error) {
         if (error.response && error.response.status === 429) {
             console.error('Erro 429 em AnymarketUtils.js, função: getOrdersFromAnymarket. Tentando novamente em 30 segundos.');

@@ -10,10 +10,14 @@ class ShopeeOrder extends Model {
             status_bseller: DataTypes.STRING,
             status_marketplace: DataTypes.STRING,
             data_pedido: DataTypes.STRING,
-            chave_nf: DataTypes.STRING,
-            numero_nf: DataTypes.STRING,
-            serie_nf: DataTypes.STRING,
-            data_nf: DataTypes.STRING,
+            chave_nf_any: DataTypes.STRING,
+            numero_nf_any: DataTypes.STRING,
+            serie_nf_any: DataTypes.STRING,
+            data_nf_any: DataTypes.STRING,
+            chave_nf_bseller: DataTypes.STRING,
+            numero_nf_bseller: DataTypes.STRING,
+            serie_nf_bseller: DataTypes.STRING,
+            data_nf_bseller: DataTypes.STRING,
             valor_total: DataTypes.DECIMAL,
         }, {
             sequelize

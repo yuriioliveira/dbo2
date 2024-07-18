@@ -21,10 +21,8 @@ while (numeroPaginaAtual <= quantidadePaginas) {
         for (const orderAny of conteudoAny.content) {
             ordersShopeeAny.push({
                 id_anymarket: orderAny.id,
-                // id_entrega: null,
                 id_marketplace: orderAny.marketPlaceId,
                 status_anymarket: orderAny.status,
-                // status_bseller: null,
                 status_marketplace: orderAny.marketPlaceStatus,
                 data_pedido: orderAny.createdAt,
                 chave_nf_any: orderAny.invoice && orderAny.invoice.accessKey ? orderAny.invoice.accessKey : '',
@@ -35,11 +33,17 @@ while (numeroPaginaAtual <= quantidadePaginas) {
             });
         }
 
+        quantidadePaginas = conteudoAny.page.totalPages;
+        numeroPaginaAtual++;
+
     } catch (error) {
         console.error('Erro na requisição services/ShopeeOrders.js: ', error.message);
         break;
     }
 }
+
+// console.log("passou da fase da Anymarket")
+// console.log(ordersShopeeAny)
 
 try {
     const conteudoBsellerNf = await BsellerUtils.getInvoiceFromBseller(dataInicial, dataFinal);
@@ -51,10 +55,10 @@ try {
                 const formatedDateTimeString = formatedDateTime.toISOString();
                 ordersShopeeBsellerNf.push({
                     id_entrega: orderBsellerNf.PED,
-                    chave_nf: orderBsellerNf.CHAVE_ACESSO,
-                    numero_nf: orderBsellerNf.NOTA,
-                    serie_nf: orderBsellerNf.SERIE,
-                    data_nf: formatedDateTimeString
+                    chave_nf_bseller: orderBsellerNf.CHAVE_ACESSO,
+                    numero_nf_bseller: orderBsellerNf.NOTA,
+                    serie_nf_bseller: orderBsellerNf.SERIE,
+                    data_nf_bseller: formatedDateTimeString
                 })
         }
     }
@@ -62,6 +66,12 @@ try {
 } catch (error) {
     console.error('Erro na requisição: AQUI', error.message);
 }
+//console.log(ordersShopeeBsellerNf)
+//console.log("Obteve os dados da NF no Bseller")
+
+// COLOCAR O CODIGO DE VALIDACAO AQUI
+const matchingOrderNfYuri = ordersShopeeBsellerNf.find(order => order.id_entrega === 96414807);
+//console.log('Matching order:', matchingOrderNfYuri);
 
 try {
     const conteudoBseller = await BsellerUtils.getOrdersFrom280Bseller(
@@ -71,16 +81,16 @@ try {
       
       for (const orderBseller of conteudoBseller) {
         if ( orderBseller.NOME_CANAL == "Shopee") {
+            const matchingNf = ordersShopeeBsellerNf.find(nf => nf.id_entrega === orderBseller.PEDC_ID_PEDIDO);
+            
             ordersShopeeBseller.push({
                 id_anymarket: orderBseller.PEDC_PED_CLIENTE,
                 id_entrega: orderBseller.PEDC_ID_PEDIDO,
                 status_bseller: orderBseller.SREF_ID_PONTO_ULT,
-                // voltar aqui, pegar a NF do array ordersShopeeBsellerNf
-                chave_nf_bseller: order.CHAVE_ACESSO,
-                numero_nf_bseller: order.NOTA,
-                serie_nf_bseller: order.SERIE,
-                data_nf_bseller: formatedDateTimeString
-
+                chave_nf_bseller: matchingNf ? matchingNf.chave_nf_bseller : '',
+                numero_nf_bseller: matchingNf ? matchingNf.numero_nf_bseller : '',
+                serie_nf_bseller: matchingNf ? matchingNf.serie_nf_bseller : '',
+                data_nf_bseller: matchingNf ? matchingNf.data_nf_bseller : ''
             })
         }
       }
@@ -89,4 +99,70 @@ try {
     console.error('Erro na requisição: AQUI', error.message);
 }
 
+//console.log("Obteve os dados de pedido do Bseller")
+//console.log(ordersShopeeBseller[1])
+
+// Combinar ordersShopeeAny e ordersShopeeBseller
+
+const combinedOrders = ordersShopeeAny.map(orderAny => {
+    const matchingBseller = ordersShopeeBseller.find(orderBseller => orderBseller.id_anymarket === orderAny.id_anymarket);
+    if (matchingBseller) {
+        return {
+            ...orderAny,
+            status_bseller: matchingBseller.status_bseller,
+            chave_nf_bseller: matchingBseller.chave_nf_bseller,
+            numero_nf_bseller: matchingBseller.numero_nf_bseller,
+            serie_nf_bseller: matchingBseller.serie_nf_bseller,
+            data_nf_bseller: matchingBseller.data_nf_bseller,
+        };
+    } else {
+        return {
+            ...orderAny,
+            status_bseller: 'pedido não integrado',
+            chave_nf_bseller: 'pedido não integrado',
+            numero_nf_bseller: 'pedido não integrado',
+            serie_nf_bseller: 'pedido não integrado',
+            data_nf_bseller: 'pedido não integrado',
+        };
+    }
+});
+//console.log(combinedOrders[1])
+
+// Adicionar a consulta no combinedOrders
+const matchingCombinedOrder = combinedOrders.find(order => order.id_anymarket === 174651797);
+console.log('Matching combined order:', matchingCombinedOrder);
+
+const result = await ShopeeOrder.bulkCreate(combinedOrders,{
+    updateOnDuplicate: [
+        'id_anymarket',
+        'id_entrega',
+        'status_anymarket',
+        'status_marketplace',
+        'chave_nf_any',
+        'numero_nf_any',
+        'serie_nf_any',
+        'data_nf_any',
+        'chave_nf_bseller', 
+        'numero_nf_bseller',
+        'serie_nf_bseller',
+        'data_nf_bseller'
+    ],
+
+    conflictAttributes: ['id_anymarket']
+})
+
+registrosProcessados += result.length;
+
+return {
+    registrosProcessados,
+    registrosTotal,
+    dataInicial,
+    dataFinal,
+    combinedOrders
 }
+
+}
+
+module.exports = {
+    ShopeeOrderFeed,
+};
